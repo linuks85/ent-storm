@@ -1,1 +1,132 @@
+<!DOCTYPE html>
+<html lang="kk">
 
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="ҰБТ дайындық платформасы - Тестілеу және білім тексеру" />
+    <meta name="keywords" content="ҰБТ, ЕНТ, тестілеу, білім тексеру, информатика, математика" />
+    <meta name="author" content="ENT-STORM Team" />
+    <title data-key="title">ҰБТ Штурм</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+
+<body data-theme="dark">
+    <header class="header">
+        <div data-key="logo_title" class="logo" onclick="location.reload()"
+            title="Басты бетке оралу / Вернуться на главную">
+            <span class="logo-icon">♟</span> ҰБТ-штурм
+        </div>
+        <div class="header-right">
+            <div class="theme-toggle">
+                <input type="checkbox" id="theme-switch" aria-label="Тема ауыстыру / Переключить тему" />
+                <label for="theme-switch" class="toggle-label">
+                    <span class="toggle-icon sun">☀</span>
+                    <span class="toggle-icon moon">🌙</span>
+                </label>
+            </div>
+            <div class="lang-switch">
+                <button class="lang-btn active" data-lang="kk" aria-label="Қазақша тілі">kz</button>
+                <button class="lang-btn" data-lang="ru" aria-label="Русский язык">ru</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- Приветственный экран -->
+        <section id="welcome-screen">
+            <div class="welcome-card">
+                <h1 data-key="title">Тактикалық Штурм</h1>
+                <p data-key="subtitle" class="subtitle">Сәлем! Тестілеу алдында мәліметтеріңізді енгізіңіз</p>
+                <form id="user-form" class="user-form" autocomplete="on">
+                    <div class="form-group">
+                        <label for="fio" data-key="fio_label">Толық аты-жөніңіз (ФИО)</label>
+                        <input type="text" id="fio" name="fio" placeholder="Bill Gates" required
+                            autocomplete="name" minlength="3" aria-required="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="iin" data-key="iin_label">ИИН (12 цифра)</label>
+                        <input type="text" id="iin" name="iin" maxlength="12" pattern="\d{12}"
+                            placeholder="551028403512" required inputmode="numeric" aria-required="true">
+                    </div>
+                    <button type="submit" class="btn-primary" data-key="continue">Жалғастыру</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Экран выбора предметов -->
+        <section id="subjects-screen" class="hidden">
+            <div class="subjects-card">
+                <h1 data-key="subjects_title">Тақырыптарды таңдаңыз</h1>
+                <p class="subtitle" data-key="subjects_subtitle">Бір немесе бірнеше тақырыпты белгілеңіз</p>
+                <div id="subjects-grid" class="subjects-grid" role="list"></div>
+                <div class="buttons-row">
+                    <button id="start-quiz-btn" class="btn-primary" disabled data-key="start_quiz"
+                        aria-label="Тестті бастау / Начать тест">Бастау</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Экран игры -->
+        <section id="game-screen" class="hidden">
+            <div class="game-container">
+                <div class="game-header">
+                    <div style="display:flex; flex-direction:column; gap:0.5rem;">
+                        <div style="font-size:1.1rem;">
+                            <span style="color:var(--text-muted);" data-key="player_name">Ойыншы:</span>
+                            <strong id="player-name" style="color:var(--accent);"></strong>
+                        </div>
+                        <div id="lives-count" style="font-size:1.5rem;"></div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div style="font-size:0.9rem; color:var(--text-muted); margin-bottom:0.3rem;" data-key="streak">
+                            Стрик</div>
+                        <div style="font-size:2rem; font-weight:bold; color:var(--accent);">
+                            <span id="streak-count">0</span> 🔥
+                        </div>
+                    </div>
+                </div>
+                <div id="question-text" class="question" aria-live="polite"></div>
+                <div id="question-image" class="question-image hidden"></div>
+                <div id="options-container" class="options" role="group"
+                    aria-label="Жауап нұсқалары / Варианты ответов"></div>
+                <div id="feedback" class="feedback hidden" aria-live="assertive"></div>
+                <button id="next-question" class="btn-primary hidden"
+                    aria-label="Келесі сұраққа өту / Перейти к следующему вопросу">Келесі сұрақ</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Модальное окно рейтинга -->
+    <div id="rating-modal" class="modal hidden" role="dialog" aria-labelledby="rating-title" aria-modal="true">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()" role="button" aria-label="Жабу / Закрыть"
+                tabindex="0">×</span>
+            <h2 id="rating-title" data-key="rating_title">Рейтинг</h2>
+            <div class="rating-filter">
+                <label>
+                    <input type="radio" name="rating-type" value="all" checked onchange="updateRating()">
+                    <span>Общий</span>
+                </label>
+                <label>
+                    <input type="radio" name="rating-type" value="subject" onchange="updateRating()">
+                    <span>По предмету</span>
+                </label>
+                <select id="subject-filter" class="hidden" onchange="updateRating()"
+                    aria-label="Таңдау пәні / Выбрать предмет">
+                    <option value="">Выберите предмет</option>
+                </select>
+            </div>
+            <div id="rating-list" style="margin-top:1.5rem;"></div>
+            <button class="btn-primary" onclick="closeModal()" style="margin-top:2rem; width:100%;"
+                aria-label="Модальді жабу / Закрыть модальное окно">
+                Жабу / Закрыть
+            </button>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>
