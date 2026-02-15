@@ -61235,7 +61235,7 @@
     "id": "инф-4060",
     "subject": "информатика",
     "lang": "ru",
-    "question": "Что выведет фрагмент кода: s = 'Hello'; print(s)?",
+    "question": "Что выведет фрагмент кода: s = 'Hello'; print(s[1])?",
     "options": [
       "H",
       "e",
