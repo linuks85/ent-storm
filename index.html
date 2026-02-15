@@ -13,118 +13,177 @@
 </head>
 
 <body data-theme="dark">
-    <header class="header">
-        <div data-key="logo_title" class="logo" onclick="location.reload()"
-            title="Басты бетке оралу / Вернуться на главную">
-            <span class="logo-icon">♟</span> ҰБТ-штурм
-        </div>
-        <div class="header-right">
-            <div class="theme-toggle">
-                <input type="checkbox" id="theme-switch" aria-label="Тема ауыстыру / Переключить тему" />
-                <label for="theme-switch" class="toggle-label">
-                    <span class="toggle-icon sun">☀</span>
-                    <span class="toggle-icon moon">🌙</span>
-                </label>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo" data-key="logo_title">
+                <span class="logo-icon">♟</span>
+                <span class="logo-text">ҰБТ-штурм</span>
             </div>
-            <div class="lang-switch">
-                <button class="lang-btn active" data-lang="kk" aria-label="Қазақша тілі">kz</button>
-                <button class="lang-btn" data-lang="ru" aria-label="Русский язык">ru</button>
+
+            <div class="nav-menu">
+                <button class="nav-link active" data-page="home" data-key="nav_home">
+                    <span class="nav-icon">🏠</span>
+                    <span>Главная</span>
+                </button>
+                <button class="nav-link" data-page="rating" data-key="nav_rating">
+                    <span class="nav-icon">🏆</span>
+                    <span>Рейтинг</span>
+                </button>
+            </div>
+
+            <div class="nav-actions">
+                <div class="theme-toggle">
+                    <input type="checkbox" id="theme-switch" aria-label="Тема ауыстыру" />
+                    <label for="theme-switch" class="toggle-label">
+                        <span class="toggle-icon sun">☀</span>
+                        <span class="toggle-icon moon">🌙</span>
+                    </label>
+                </div>
             </div>
         </div>
-    </header>
+    </nav>
 
     <main class="main-content">
         <!-- Приветственный экран -->
-        <section id="welcome-screen">
+        <section id="welcome-screen" class="page-section">
             <div class="welcome-card">
-                <h1 data-key="title">Тактикалық Штурм</h1>
-                <p data-key="subtitle" class="subtitle">Сәлем! Тестілеу алдында мәліметтеріңізді енгізіңіз</p>
+                <div class="welcome-header">
+                    <h1 data-key="welcome_title">Добро пожаловать!</h1>
+                    <p data-key="welcome_subtitle" class="subtitle">Введите свои данные для начала тестирования</p>
+                </div>
+
                 <form id="user-form" class="user-form" autocomplete="on">
                     <div class="form-group">
-                        <label for="fio" data-key="fio_label">Толық аты-жөніңіз (ФИО)</label>
-                        <input type="text" id="fio" name="fio" placeholder="Bill Gates" required
+                        <label for="fio" data-key="fio_label">ФИО полностью</label>
+                        <input type="text" id="fio" name="fio" placeholder="Иванов Иван Иванович" required
                             autocomplete="name" minlength="3" aria-required="true">
                     </div>
+
                     <div class="form-group">
-                        <label for="iin" data-key="iin_label">ИИН (12 цифра)</label>
+                        <label for="iin" data-key="iin_label">ИИН (12 цифр)</label>
                         <input type="text" id="iin" name="iin" maxlength="12" pattern="\d{12}"
-                            placeholder="551028403512" required inputmode="numeric" aria-required="true">
+                            placeholder="123456789012" required inputmode="numeric" aria-required="true">
                     </div>
-                    <button type="submit" class="btn-primary" data-key="continue">Жалғастыру</button>
+
+                    <div class="form-group">
+                        <label data-key="language_label">Язык тестирования</label>
+                        <div class="lang-switch-form">
+                            <button type="button" class="lang-btn-form active" data-lang="kk">
+                                <span class="lang-flag">🇰🇿</span>
+                                <span data-key="lang_kk">Қазақша</span>
+                            </button>
+                            <button type="button" class="lang-btn-form" data-lang="ru">
+                                <span class="lang-flag">🇷🇺</span>
+                                <span data-key="lang_ru">Русский</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary btn-large" data-key="continue">
+                        <span>Продолжить</span>
+                        <span class="btn-arrow">→</span>
+                    </button>
                 </form>
             </div>
         </section>
 
         <!-- Экран выбора предметов -->
-        <section id="subjects-screen" class="hidden">
+        <section id="subjects-screen" class="page-section hidden">
             <div class="subjects-card">
-                <h1 data-key="subjects_title">Тақырыптарды таңдаңыз</h1>
-                <p class="subtitle" data-key="subjects_subtitle">Бір немесе бірнеше тақырыпты белгілеңіз</p>
+                <div class="section-header">
+                    <h1 data-key="subjects_title">Выберите предметы</h1>
+                    <p class="subtitle" data-key="subjects_subtitle">Отметьте один или несколько предметов</p>
+                </div>
                 <div id="subjects-grid" class="subjects-grid" role="list"></div>
                 <div class="buttons-row">
-                    <button id="start-quiz-btn" class="btn-primary" disabled data-key="start_quiz"
-                        aria-label="Тестті бастау / Начать тест">Бастау</button>
+                    <button id="start-quiz-btn" class="btn-primary btn-large" disabled data-key="start_quiz">
+                        <span>Начать тестирование</span>
+                        <span class="btn-arrow">→</span>
+                    </button>
                 </div>
             </div>
         </section>
 
         <!-- Экран игры -->
-        <section id="game-screen" class="hidden">
+        <section id="game-screen" class="page-section hidden">
             <div class="game-container">
                 <div class="game-header">
-                    <div style="display:flex; flex-direction:column; gap:0.5rem;">
-                        <div style="font-size:1.1rem;">
-                            <span style="color:var(--text-muted);" data-key="player_name">Ойыншы:</span>
-                            <strong id="player-name" style="color:var(--accent);"></strong>
+                    <div class="player-info">
+                        <div class="player-name-block">
+                            <span class="player-label" data-key="player_name">Игрок:</span>
+                            <strong id="player-name" class="player-name"></strong>
                         </div>
-                        <div id="lives-count" style="font-size:1.5rem;"></div>
+                        <div id="lives-count" class="lives-display"></div>
                     </div>
-                    <div style="text-align:right;">
-                        <div style="font-size:0.9rem; color:var(--text-muted); margin-bottom:0.3rem;" data-key="streak">
-                            Стрик</div>
-                        <div style="font-size:2rem; font-weight:bold; color:var(--accent);">
-                            <span id="streak-count">0</span> 🔥
+                    <div class="streak-info">
+                        <div class="streak-label" data-key="streak">Стрик</div>
+                        <div class="streak-value">
+                            <span id="streak-count">0</span>
+                            <span class="streak-fire">🔥</span>
                         </div>
                     </div>
                 </div>
-                <div id="question-text" class="question" aria-live="polite"></div>
-                <div id="question-image" class="question-image hidden"></div>
-                <div id="options-container" class="options" role="group"
-                    aria-label="Жауап нұсқалары / Варианты ответов"></div>
+
+                <div class="question-card">
+                    <div id="question-text" class="question" aria-live="polite"></div>
+                    <div id="question-image" class="question-image hidden"></div>
+                </div>
+
+                <div id="options-container" class="options" role="group"></div>
                 <div id="feedback" class="feedback hidden" aria-live="assertive"></div>
-                <button id="next-question" class="btn-primary hidden"
-                    aria-label="Келесі сұраққа өту / Перейти к следующему вопросу">Келесі сұрақ</button>
+                <button id="next-question" class="btn-primary btn-large hidden" data-key="next_question">
+                    <span>Следующий вопрос</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Экран рейтинга -->
+        <section id="rating-screen" class="page-section hidden">
+            <div class="rating-card">
+                <div class="section-header">
+                    <h1 data-key="rating_title">🏆 Рейтинг</h1>
+                    <p class="subtitle" data-key="rating_subtitle">Лучшие результаты игроков</p>
+                </div>
+
+                <div class="rating-filters">
+                    <div class="filter-group" id="main-filters">
+                        <button class="filter-btn active" data-filter="all" data-key="filter_all">
+                            <span class="filter-icon">📊</span>
+                            <span>Общий</span>
+                        </button>
+                    </div>
+
+                    <div class="filter-group hidden" id="subject-filters">
+                        <!-- Кнопки предметов создаются динамически -->
+                    </div>
+                </div>
+
+                <div id="rating-table-container" class="rating-table-container">
+                    <table class="rating-table">
+                        <thead>
+                            <tr>
+                                <th class="col-rank" data-key="table_rank">#</th>
+                                <th class="col-name" data-key="table_name">Игрок</th>
+                                <th class="col-subject" data-key="table_subject">Предмет</th>
+                                <th class="col-score" data-key="table_score">Стрик</th>
+                                <th class="col-time" data-key="table_time">Время</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rating-tbody">
+                            <!-- Заполняется динамически -->
+                        </tbody>
+                    </table>
+
+                    <div id="rating-empty" class="rating-empty hidden">
+                        <div class="empty-icon">📭</div>
+                        <p data-key="no_records">Пока нет рекордов</p>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
-
-    <!-- Модальное окно рейтинга -->
-    <div id="rating-modal" class="modal hidden" role="dialog" aria-labelledby="rating-title" aria-modal="true">
-        <div class="modal-content">
-            <span class="modal-close" onclick="closeModal()" role="button" aria-label="Жабу / Закрыть"
-                tabindex="0">×</span>
-            <h2 id="rating-title" data-key="rating_title">Рейтинг</h2>
-            <div class="rating-filter">
-                <label>
-                    <input type="radio" name="rating-type" value="all" checked onchange="updateRating()">
-                    <span>Общий</span>
-                </label>
-                <label>
-                    <input type="radio" name="rating-type" value="subject" onchange="updateRating()">
-                    <span>По предмету</span>
-                </label>
-                <select id="subject-filter" class="hidden" onchange="updateRating()"
-                    aria-label="Таңдау пәні / Выбрать предмет">
-                    <option value="">Выберите предмет</option>
-                </select>
-            </div>
-            <div id="rating-list" style="margin-top:1.5rem;"></div>
-            <button class="btn-primary" onclick="closeModal()" style="margin-top:2rem; width:100%;"
-                aria-label="Модальді жабу / Закрыть модальное окно">
-                Жабу / Закрыть
-            </button>
-        </div>
-    </div>
 
     <script src="js/app.js"></script>
 </body>

@@ -1,16 +1,22 @@
-// app.js — исправленная версия с багфиксами
+// ========== ПЕРЕВОДЫ ==========
 const translations = {
     kk: {
         title: "ҰБТ Штурм",
         logo_title: "♟ ҰБТ-штурм",
-        subtitle: "Сәлем! Тестілеу алдында мәліметтеріңізді енгізіңіз",
+        nav_home: "Басты бет",
+        nav_rating: "Рейтинг",
+        welcome_title: "Қош келдіңіз!",
+        welcome_subtitle: "Тестілеуді бастау үшін мәліметтеріңізді енгізіңіз",
         fio_label: "Толық аты-жөніңіз (ФИО)",
         iin_label: "ИИН (12 цифра)",
+        language_label: "Тестілеу тілі",
+        lang_kk: "Қазақша",
+        lang_ru: "Русский",
         continue: "Жалғастыру",
         subjects_title: "Тақырыптарды таңдаңыз",
         subjects_subtitle: "Бір немесе бірнеше тақырыпты белгілеңіз",
-        no_subjects: "Қолжетімді тақырыптар жоқ. data/ қалтасына json-файлдар қосыңыз",
-        start_quiz: "Бастау",
+        no_subjects: "Қолжетімді тақырыптар жоқ",
+        start_quiz: "Тестілеуді бастау",
         player_name: "Ойыншы:",
         streak: "Стрик",
         lives: "Өмір",
@@ -21,25 +27,42 @@ const translations = {
         source: "Дереккөз:",
         next_question: "Келесі сұрақ",
         rating_title: "Рейтинг",
+        rating_subtitle: "Ойыншылардың үздік нәтижелері",
+        filter_all: "Жалпы",
+        filter_subject: "Пән бойынша",
+        table_rank: "#",
+        table_name: "Ойыншы",
+        table_subject: "Пән",
+        table_score: "Стрик",
+        table_time: "Уақыт",
         session_time: "сек.",
         no_records: "Әзірше рекордтар жоқ",
         rating_button: "Рейтинг көру",
         game_over: "Ойын аяқталды!",
         max_streak: "Максималды стрик:",
         lives_left: "Қалған өмір:",
-        current_streak: "Ағымдағы стрик:"
+        current_streak: "Ағымдағы стрик:",
+        questions_finished: "Сұрақтар аяқталды!",
+        answered_all: "Сіз барлық сұрақтарды жауаптадыңыз!",
+        final_streak: "Соңғы стрик:"
     },
     ru: {
         title: "ЕНТ Штурм",
         logo_title: "♟ ЕНТ-штурм",
-        subtitle: "Привет! Перед тестом введите свои данные",
+        nav_home: "Главная",
+        nav_rating: "Рейтинг",
+        welcome_title: "Добро пожаловать!",
+        welcome_subtitle: "Введите свои данные для начала тестирования",
         fio_label: "ФИО полностью",
         iin_label: "ИИН (12 цифр)",
+        language_label: "Язык тестирования",
+        lang_kk: "Қазақша",
+        lang_ru: "Русский",
         continue: "Продолжить",
         subjects_title: "Выберите предметы",
         subjects_subtitle: "Отметьте один или несколько предметов",
-        no_subjects: "Доступных предметов нет. Добавьте json-файлы в папку data/",
-        start_quiz: "Начать",
+        no_subjects: "Доступных предметов нет",
+        start_quiz: "Начать тестирование",
         player_name: "Игрок:",
         streak: "Стрик",
         lives: "Жизни",
@@ -50,29 +73,42 @@ const translations = {
         source: "Источник:",
         next_question: "Следующий вопрос",
         rating_title: "Рейтинг",
+        rating_subtitle: "Лучшие результаты игроков",
+        filter_all: "Общий",
+        filter_subject: "По предмету",
+        table_rank: "#",
+        table_name: "Игрок",
+        table_subject: "Предмет",
+        table_score: "Стрик",
+        table_time: "Время",
         session_time: "сек.",
         no_records: "Пока нет рекордов",
         rating_button: "Посмотреть рейтинг",
         game_over: "Игра окончена!",
         max_streak: "Максимальный стрик:",
         lives_left: "Осталось жизней:",
-        current_streak: "Текущий стрик:"
+        current_streak: "Текущий стрик:",
+        questions_finished: "Вопросы закончились!",
+        answered_all: "Вы ответили на все вопросы!",
+        final_streak: "Финальный стрик:"
     }
 };
 
-let currentLang = "kk";
-let selectedSubjects = []; // ИСПРАВЛЕНО: объявлена на верхнем уровне
+// ========== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ==========
+let currentLang = "ru";
+let currentPage = "home";
+let selectedSubjects = [];
 let availableSubjects = [];
 let allQuestions = [];
+let questionQueue = [];
 let streak = 0;
 let maxStreakThisSession = 0;
 let gameStartTime = 0;
-let records = JSON.parse(localStorage.getItem('quizRecords')) || [];
-let currentQuestionData = null; // для хранения текущего вопроса
-let lives = 3; // количество жизней
-let maxLives = 3; // максимальное количество жизней
+let records = [];
+let currentQuestionData = null;
+let lives = 3;
+let maxLives = 3;
 
-// Список предметов
 const subjects = [
     { id: "biologiya", name_kk: "Биология", name_ru: "Биология" },
     { id: "geografiya", name_kk: "География", name_ru: "География" },
@@ -83,19 +119,37 @@ const subjects = [
     { id: "informatika", name_kk: "Информатика", name_ru: "Информатика" }
 ];
 
-// Обновление отображения жизней
-function updateLivesDisplay() {
-    const livesContainer = document.getElementById('lives-count');
-    if (!livesContainer) return;
+// ========== УТИЛИТЫ ==========
+function shuffleArray(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
 
-    livesContainer.innerHTML = '';
+function shuffleOptions(options, correctIndex) {
+    const indexed = options.map((option, index) => ({
+        text: option,
+        wasCorrect: index === correctIndex
+    }));
+    const shuffled = shuffleArray(indexed);
+    const newCorrectIndex = shuffled.findIndex(opt => opt.wasCorrect);
+    return {
+        options: shuffled.map(opt => opt.text),
+        correctIndex: newCorrectIndex
+    };
+}
+
+function updateLivesDisplay() {
+    const container = document.getElementById('lives-count');
+    if (!container) return;
+    container.innerHTML = '';
     for (let i = 0; i < maxLives; i++) {
         const heart = document.createElement('span');
         heart.style.fontSize = '1.5rem';
-        heart.style.margin = '0 0.2rem';
-        heart.style.display = 'inline-block';
         heart.style.transition = 'transform 0.3s ease';
-
         if (i < lives) {
             heart.textContent = '❤️';
             heart.style.animation = 'heartbeat 1s ease infinite';
@@ -103,27 +157,70 @@ function updateLivesDisplay() {
             heart.textContent = '🖤';
             heart.style.opacity = '0.3';
         }
-        livesContainer.appendChild(heart);
+        container.appendChild(heart);
     }
 }
 
-// Смена языка
+// ========== НАВИГАЦИЯ ==========
+function navigateTo(page) {
+    currentPage = page;
+
+    // Скрываем все секции
+    document.querySelectorAll('.page-section').forEach(s => s.classList.add('hidden'));
+
+    // Показываем нужную секцию
+    const pageMap = {
+        'home': 'welcome-screen',
+        'rating': 'rating-screen'
+    };
+
+    const sectionId = pageMap[page];
+    if (sectionId) {
+        document.getElementById(sectionId).classList.remove('hidden');
+    }
+
+    // Обновляем активную кнопку в меню
+    document.querySelectorAll('.nav-link').forEach(link => {
+        if (link.dataset.page === page) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+
+    // Если открываем рейтинг - загружаем данные
+    if (page === 'rating') {
+        loadRating();
+    }
+}
+
+// ========== ПЕРЕВОДЫ ==========
 function setLanguage(lang) {
     currentLang = lang;
+    document.documentElement.lang = lang;
+
     document.querySelectorAll('[data-key]').forEach(el => {
         const key = el.dataset.key;
-        if (translations[lang][key]) el.textContent = translations[lang][key];
+        if (translations[lang][key]) {
+            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                el.placeholder = translations[lang][key];
+            } else {
+                el.textContent = translations[lang][key];
+            }
+        }
     });
-    document.querySelectorAll('.lang-btn').forEach(btn => {
+
+    // Обновляем активную кнопку языка в форме
+    document.querySelectorAll('.lang-btn-form').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.lang === lang);
     });
-    document.documentElement.lang = lang;
-    if (document.getElementById('subjects-screen') && !document.getElementById('subjects-screen').classList.contains('hidden')) {
+
+    if (!document.getElementById('subjects-screen').classList.contains('hidden')) {
         renderSubjects();
     }
 }
 
-// Загрузка доступных предметов
+// ========== ПРЕДМЕТЫ ==========
 async function loadAvailableSubjects() {
     availableSubjects = [];
     for (const sub of subjects) {
@@ -134,10 +231,7 @@ async function loadAvailableSubjects() {
             if (!Array.isArray(data)) continue;
             const filtered = data.filter(q => q.lang === currentLang || !q.lang);
             if (filtered.length > 0) {
-                availableSubjects.push({
-                    ...sub,
-                    questionCount: filtered.length
-                });
+                availableSubjects.push({ ...sub, questionCount: filtered.length });
             }
         } catch (e) {
             console.error(`Ошибка загрузки ${sub.id}:`, e);
@@ -150,40 +244,32 @@ function renderSubjects() {
     const grid = document.getElementById('subjects-grid');
     if (!grid) return;
     grid.innerHTML = '';
+
     if (availableSubjects.length === 0) {
         grid.innerHTML = `<p style="text-align:center;color:var(--text-muted);font-size:1.2rem;">
-${translations[currentLang].no_subjects}
-</p>`;
+${translations[currentLang].no_subjects}</p>`;
         document.getElementById('start-quiz-btn').disabled = true;
         return;
     }
+
     availableSubjects.forEach(sub => {
         const div = document.createElement('div');
         div.className = 'subject-item';
         div.dataset.id = sub.id;
-        div.innerHTML = `
-${sub[`name_${currentLang}`]}
-<span style="font-size:0.85rem;color:var(--text-muted);margin-left:8px;">
-(${sub.questionCount})
-</span>
-`;
+        div.innerHTML = `<span>${sub[`name_${currentLang}`]}<br><small style="opacity:0.7;">(${sub.questionCount})</small></span>`;
         div.onclick = () => {
             div.classList.toggle('selected');
-            const sel = Array.from(document.querySelectorAll('.subject-item.selected'))
-                .map(el => el.dataset.id);
+            const sel = Array.from(document.querySelectorAll('.subject-item.selected')).map(el => el.dataset.id);
             document.getElementById('start-quiz-btn').disabled = sel.length === 0;
         };
         grid.appendChild(div);
     });
 }
 
-// Загрузка вопросов
+// ========== ВОПРОСЫ ==========
 async function loadQuestionsFromSelected() {
     allQuestions = [];
-    const selectedIds = Array.from(document.querySelectorAll('.subject-item.selected'))
-        .map(el => el.dataset.id);
-
-    // ИСПРАВЛЕНО: обновляем глобальную переменную selectedSubjects
+    const selectedIds = Array.from(document.querySelectorAll('.subject-item.selected')).map(el => el.dataset.id);
     selectedSubjects = selectedIds.map(id => {
         const subject = subjects.find(s => s.id === id);
         return subject ? subject[`name_${currentLang}`] : id;
@@ -200,108 +286,87 @@ async function loadQuestionsFromSelected() {
                 }
             }
         } catch (e) {
-            console.error(`Ошибка загрузки вопросов ${id}:`, e);
+            console.error(`Ошибка загрузки ${id}:`, e);
         }
     }
+
+    if (allQuestions.length > 0) {
+        questionQueue = allQuestions.map((_, index) => index);
+        questionQueue = shuffleArray(questionQueue);
+    }
+
     return allQuestions.length > 0;
 }
 
-// Показ случайного вопроса
 function showRandomQuestion() {
-    if (allQuestions.length === 0) {
-        document.getElementById('feedback').textContent = currentLang === 'kk'
-            ? "Сұрақтар таусылды"
-            : "Вопросы закончились";
-        document.getElementById('feedback').className = 'feedback correct';
-        document.getElementById('feedback').classList.remove('hidden');
+    if (questionQueue.length === 0) {
+        const feedback = document.getElementById('feedback');
+        feedback.innerHTML = `
+            <div style="text-align:center; padding:2rem;">
+                <div style="font-size:3rem; margin-bottom:1rem;">🎉</div>
+                <h2 style="color:var(--accent); margin-bottom:1rem;">${translations[currentLang].questions_finished}</h2>
+                <p style="font-size:1.2rem; margin-bottom:1rem;">${translations[currentLang].answered_all}</p>
+                <div style="font-size:1.5rem; color:var(--accent); margin-bottom:2rem;">
+                    ${translations[currentLang].final_streak} <strong style="font-size:2rem;">${streak}</strong> 🔥
+                </div>
+            </div>
+        `;
+        feedback.className = 'feedback correct';
+        feedback.classList.remove('hidden');
+
+        const ratingBtn = document.createElement('button');
+        ratingBtn.className = 'btn-primary';
+        ratingBtn.textContent = translations[currentLang].rating_button;
+        ratingBtn.onclick = () => navigateTo('rating');
+        feedback.appendChild(ratingBtn);
+
+        saveRecord();
         return;
     }
 
-    const idx = Math.floor(Math.random() * allQuestions.length);
-    const q = allQuestions[idx];
-    currentQuestionData = q; // сохраняем текущий вопрос
+    const questionIndex = questionQueue.shift();
+    const q = allQuestions[questionIndex];
+    currentQuestionData = q;
 
-    // Очищаем предыдущий feedback
     document.getElementById('feedback').classList.add('hidden');
     document.getElementById('next-question').classList.add('hidden');
+    document.getElementById('question-text').textContent = q.id + ': \n' + q.question;
 
-    // Текст вопроса
-    document.getElementById('question-text').textContent = q.question;
-
-    // Обработка изображения
+    // Изображение
     const imgCont = document.getElementById('question-image');
     imgCont.innerHTML = '';
     if (q.image && q.image.trim()) {
-        const imageUrl = q.image.trim();
-
-        // Создаем контейнер для прелоадера
-        const loaderDiv = document.createElement('div');
-        loaderDiv.style.textAlign = 'center';
-        loaderDiv.style.padding = '2rem';
-        loaderDiv.innerHTML = '<div style="color:var(--text-muted);">Загрузка изображения...</div>';
-        imgCont.appendChild(loaderDiv);
-        imgCont.classList.remove('hidden');
-
         const img = document.createElement('img');
+        img.src = q.image.trim();
+        img.alt = translations[currentLang].question;
         img.style.maxWidth = '100%';
         img.style.borderRadius = '12px';
-        img.style.display = 'block';
-        img.style.margin = '1rem auto';
-        img.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
-
-        img.onload = () => {
-            // Изображение загружено успешно
-            imgCont.innerHTML = '';
-            imgCont.appendChild(img);
-        };
-
         img.onerror = () => {
-            console.warn("Не удалось загрузить изображение:", imageUrl);
-            imgCont.innerHTML = `
-                <div style="
-                    background: rgba(255, 107, 107, 0.1);
-                    border: 2px dashed #ff6b6b;
-                    border-radius: 12px;
-                    padding: 2rem;
-                    text-align: center;
-                    margin: 1rem 0;
-                ">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">📷</div>
-                    <div style="color: #ff6b6b; font-weight: 500; margin-bottom: 0.5rem;">
-                        ${currentLang === 'kk' ? 'Сурет табылмады' : 'Изображение не найдено'}
-                    </div>
-                    <div style="color: var(--text-muted); font-size: 0.9rem;">
-                        ${imageUrl}
-                    </div>
-                </div>
-            `;
+            imgCont.innerHTML = `<p style="color:#ef4444; text-align:center;">Изображение не найдено</p>`;
         };
-
-        img.alt = currentLang === 'kk' ? 'Сұрақтың суреті' : 'Изображение к вопросу';
-        img.src = imageUrl;
-
+        imgCont.appendChild(img);
+        imgCont.classList.remove('hidden');
     } else {
         imgCont.classList.add('hidden');
     }
 
-    // Варианты ответов
+    // Варианты
+    const shuffled = shuffleOptions(q.options, q.correct);
     const opts = document.getElementById('options-container');
     opts.innerHTML = '';
-    q.options.forEach((opt, i) => {
+    shuffled.options.forEach((opt, i) => {
         const btn = document.createElement('button');
         btn.className = 'option-btn';
         btn.textContent = opt;
-        btn.onclick = () => checkAnswer(i, q.correct, q);
+        btn.onclick = () => checkAnswer(i, shuffled.correctIndex, shuffled.options);
         opts.appendChild(btn);
     });
 }
 
-function checkAnswer(selectedIdx, correctIdx, question) {
+function checkAnswer(selectedIdx, correctIdx, shuffledOptions) {
     const opts = document.querySelectorAll('.option-btn');
     const feedback = document.getElementById('feedback');
     feedback.classList.remove('hidden');
-
-    // Блокируем все кнопки
     opts.forEach(btn => btn.disabled = true);
 
     if (selectedIdx === correctIdx) {
@@ -311,98 +376,51 @@ function checkAnswer(selectedIdx, correctIdx, question) {
         opts[selectedIdx].classList.add('correct');
 
         feedback.innerHTML = `<strong>${translations[currentLang].correct}</strong>`;
-        if (question.explanation) {
-            feedback.innerHTML += `<br><br><strong>${translations[currentLang].explanation}</strong> ${question.explanation}`;
+        if (currentQuestionData.explanation) {
+            feedback.innerHTML += `<br><br><strong>${translations[currentLang].explanation}</strong> ${currentQuestionData.explanation}`;
         }
-        if (question.source) {
-            feedback.innerHTML += `<br><br><strong>${translations[currentLang].source}</strong> ${question.source}`;
+        if (currentQuestionData.source) {
+            feedback.innerHTML += `<br><br><strong>${translations[currentLang].source}</strong> ${currentQuestionData.source}`;
         }
         feedback.className = 'feedback correct';
-
-        // Удаляем вопрос из массива
-        allQuestions = allQuestions.filter(q => q !== question);
-
-        // Кнопка "Следующий вопрос"
         document.getElementById('next-question').classList.remove('hidden');
-
     } else {
-        // Неправильный ответ
-        lives--; // Уменьшаем жизни (но стрик НЕ сбрасываем!)
+        lives--;
         updateLivesDisplay();
-
         opts[selectedIdx].classList.add('wrong');
         opts[correctIdx].classList.add('correct');
 
         feedback.innerHTML = `<strong>${translations[currentLang].wrong}</strong><br><br>
-<strong>${translations[currentLang].correct_answer}</strong> ${question.options[correctIdx]}<br><br>`;
+<strong>${translations[currentLang].correct_answer}</strong> ${shuffledOptions[correctIdx]}<br><br>`;
 
-        if (question.explanation) {
-            feedback.innerHTML += `<strong>${translations[currentLang].explanation}</strong> ${question.explanation}<br><br>`;
+        if (currentQuestionData.explanation) {
+            feedback.innerHTML += `<strong>${translations[currentLang].explanation}</strong> ${currentQuestionData.explanation}<br><br>`;
         }
-        if (question.source) {
-            feedback.innerHTML += `<strong>${translations[currentLang].source}</strong> ${question.source || 'Жоқ'}<br><br>`;
+        if (currentQuestionData.source) {
+            feedback.innerHTML += `<strong>${translations[currentLang].source}</strong> ${currentQuestionData.source}<br><br>`;
         }
-
         feedback.className = 'feedback wrong';
 
-        // Проверяем, закончились ли жизни
         if (lives <= 0) {
-            // Игра окончена - ТЕПЕРЬ сбрасываем стрик
             streak = 0;
             document.getElementById('streak-count').textContent = 0;
-
-            opts.innerHTML = '';
-            document.getElementById('next-question').classList.add('hidden');
-
-            feedback.innerHTML += `<div style="margin-top:1.5rem; padding:1rem; background:rgba(255,107,107,0.15); border-radius:8px;">
+            feedback.innerHTML += `<div style="margin-top:1.5rem; padding:1rem; background:rgba(239,68,68,0.15); border-radius:12px; border:2px solid var(--error);">
                 <strong style="font-size:1.3rem;">💔 ${translations[currentLang].game_over}</strong><br><br>
                 ${translations[currentLang].max_streak} <strong>${maxStreakThisSession}</strong>
             </div>`;
 
-            // Кнопка "Рейтинг"
             const ratingBtn = document.createElement('button');
             ratingBtn.className = 'btn-primary';
             ratingBtn.style.marginTop = '1.5rem';
             ratingBtn.textContent = translations[currentLang].rating_button;
-            ratingBtn.onclick = showRatingModal;
+            ratingBtn.onclick = () => navigateTo('rating');
             feedback.appendChild(ratingBtn);
-
-            // Сохранение рекорда
-            const timeSec = Math.round((Date.now() - gameStartTime) / 1000);
-            const user = JSON.parse(localStorage.getItem('quizUser')) || { fio: 'Аноним' };
-            const subjectsText = selectedSubjects.length > 0 ? selectedSubjects.join(', ') : 'Общий';
-
-            const record = {
-                fio: user.fio || 'Аноним',
-                streak: maxStreakThisSession,
-                time: timeSec,
-                date: new Date().toLocaleString(currentLang === 'kk' ? 'kk-KZ' : 'ru-RU'),
-                subject: subjectsText
-            };
-
-            // Отправляем на сервер
-            fetch('/records', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(record)
-            })
-                .then(res => res.json())
-                .then(data => {
-                    records = data.records || [];
-                    showRatingModal();
-                })
-                .catch(err => {
-                    console.error('Ошибка сохранения рекорда:', err);
-                    showRatingModal();
-                });
+            saveRecord();
         } else {
-            // Еще есть жизни - показываем кнопку "Следующий вопрос"
-            // Стрик НЕ сбрасывается! Продолжаем с текущим значением
             document.getElementById('next-question').classList.remove('hidden');
-
-            feedback.innerHTML += `<div style="margin-top:1rem; padding:1rem; background:rgba(92,124,250,0.1); border-radius:8px; border:1px solid var(--accent);">
+            feedback.innerHTML += `<div style="margin-top:1rem; padding:1rem; background:var(--accent-light); border-radius:8px; border:1px solid var(--accent);">
                 <div style="color:var(--text-muted); margin-bottom:0.5rem;">
-                    ${translations[currentLang].lives_left} <strong style="color:#ff6b6b; font-size:1.3rem;">${lives}</strong>
+                    ${translations[currentLang].lives_left} <strong style="color:var(--error); font-size:1.3rem;">${lives}</strong>
                 </div>
                 <div style="color:var(--accent); font-size:1.1rem;">
                     💪 ${translations[currentLang].current_streak} <strong style="font-size:1.3rem;">${streak}</strong> 🔥
@@ -412,104 +430,167 @@ function checkAnswer(selectedIdx, correctIdx, question) {
     }
 }
 
-// Глобальные переменные для рейтинга
-let currentRatingType = 'all';
-let currentSubjectFilter = '';
+// ========== РЕКОРДЫ ==========
+function saveRecord() {
+    const timeSec = Math.round((Date.now() - gameStartTime) / 1000);
+    const user = JSON.parse(localStorage.getItem('quizUser')) || { fio: 'Аноним' };
+    const subjectsText = selectedSubjects.length > 0 ? selectedSubjects.join(', ') : 'Общий';
 
-// Функция обновления рейтинга в модальном окне
-function updateRating() {
-    const type = document.querySelector('input[name="rating-type"]:checked')?.value || 'all';
-    currentRatingType = type;
-    const select = document.getElementById('subject-filter');
-    const subject = select.value;
-    currentSubjectFilter = subject;
+    const record = {
+        fio: user.fio || 'Аноним',
+        streak: maxStreakThisSession,
+        time: timeSec,
+        date: new Date().toLocaleString(currentLang === 'kk' ? 'kk-KZ' : 'ru-RU'),
+        subject: subjectsText
+    };
 
-    // Показ/скрытие селекта предметов
-    select.classList.toggle('hidden', type !== 'subject');
-
-    // Если выбран "по предмету" — заполняем селект
-    if (type === 'subject') {
-        const subjectsSet = new Set();
-        records.forEach(r => {
-            if (r.subject) subjectsSet.add(r.subject);
-        });
-        select.innerHTML = '<option value="">Все предметы</option>';
-        subjectsSet.forEach(s => {
-            const opt = document.createElement('option');
-            opt.value = s;
-            opt.textContent = s.charAt(0).toUpperCase() + s.slice(1);
-            select.appendChild(opt);
-        });
-    }
-
-    // Фильтруем рекорды
-    let filteredRecords = records;
-    if (type === 'subject' && subject) {
-        filteredRecords = records.filter(r => r.subject === subject);
-    }
-
-    const list = document.getElementById('rating-list');
-    let html = '';
-    if (filteredRecords.length === 0) {
-        html = `<p>${translations[currentLang].no_records}</p>`;
-    } else {
-        html = '<ol>';
-        filteredRecords.forEach(r => {
-            // ИСПРАВЛЕНО: правильный синтаксис шаблонных строк
-            html += `<li>
-    ${r.fio} — <strong>${r.streak} pts.</strong> (${r.time} ${translations[currentLang].session_time})
-</li>`;
-        });
-        html += '</ol>';
-    }
-    list.innerHTML = html;
+    fetch('/records', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(record)
+    })
+        .then(res => res.json())
+        .then(data => { records = data.records || []; })
+        .catch(err => console.error('Ошибка сохранения:', err));
 }
 
-// Показ модального окна рейтинга
-function showRatingModal() {
-    const modal = document.getElementById('rating-modal');
-    modal.classList.remove('hidden');
-
-    // Сбрасываем фильтр при открытии
-    document.querySelector('input[name="rating-type"][value="all"]').checked = true;
-    document.getElementById('subject-filter').classList.add('hidden');
-
-    // Загружаем рейтинг с сервера
+function loadRating() {
     fetch('/records')
         .then(res => res.json())
         .then(data => {
             records = data || [];
-            updateRating();
+
+            // Создаем кнопки предметов
+            createSubjectButtons();
+
+            // Показываем общий рейтинг
+            renderRating(records);
         })
         .catch(err => {
             console.error('Ошибка загрузки рейтинга:', err);
-            const list = document.getElementById('rating-list');
-            list.innerHTML = '<p>Не удалось загрузить рейтинг</p>';
-            modal.classList.remove('hidden');
+            renderRating([]);
         });
 }
 
-// Закрытие модального окна
-function closeModal() {
-    document.getElementById('rating-modal').classList.add('hidden');
+function createSubjectButtons() {
+    const subjectFilters = document.getElementById('subject-filters');
+    const mainFilters = document.getElementById('main-filters');
+
+    if (!subjectFilters || !mainFilters) return;
+
+    // Собираем уникальные предметы из рекордов
+    const subjectsSet = new Set();
+    records.forEach(r => {
+        if (r.subject) subjectsSet.add(r.subject);
+    });
+
+    // Если есть предметы, показываем кнопки
+    if (subjectsSet.size > 0) {
+        subjectFilters.innerHTML = '';
+        subjectFilters.classList.remove('hidden');
+
+        subjectsSet.forEach(subject => {
+            const btn = document.createElement('button');
+            btn.className = 'filter-btn';
+            btn.dataset.subject = subject;
+
+            // Иконки для предметов
+            const icons = {
+                'Информатика': '💻',
+                'Informatika': '💻',
+                'Математика': '📐',
+                'Matematika': '📐',
+                'Физика': '⚛️',
+                'Fizika': '⚛️',
+                'Химия': '🧪',
+                'Himiya': '🧪',
+                'Биология': '🧬',
+                'Biologiya': '🧬',
+                'География': '🌍',
+                'Geografiya': '🌍',
+                'История': '📜'
+            };
+
+            const icon = Object.keys(icons).find(key => subject.includes(key));
+            const iconEmoji = icon ? icons[icon] : '📚';
+
+            btn.innerHTML = `
+                <span class="filter-icon">${iconEmoji}</span>
+                <span>${subject}</span>
+            `;
+
+            btn.onclick = () => {
+                // Снимаем активность с "Общий"
+                mainFilters.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                // Снимаем активность с других предметов
+                subjectFilters.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                // Активируем текущую кнопку
+                btn.classList.add('active');
+
+                // Фильтруем рейтинг
+                const filtered = records.filter(r => r.subject === subject);
+                renderRating(filtered);
+            };
+
+            subjectFilters.appendChild(btn);
+        });
+    } else {
+        subjectFilters.classList.add('hidden');
+    }
 }
 
-// Инициализация
+function renderRating(data) {
+    const tbody = document.getElementById('rating-tbody');
+    const empty = document.getElementById('rating-empty');
+
+    if (data.length === 0) {
+        tbody.innerHTML = '';
+        empty.classList.remove('hidden');
+        return;
+    }
+
+    empty.classList.add('hidden');
+    tbody.innerHTML = '';
+
+    data.forEach((record, index) => {
+        const tr = document.createElement('tr');
+
+        let medal = '';
+        if (index === 0) medal = '🥇';
+        else if (index === 1) medal = '🥈';
+        else if (index === 2) medal = '🥉';
+
+        tr.innerHTML = `
+            <td class="col-rank"><span class="rank-medal">${medal}</span>${index + 1}</td>
+            <td class="col-name">${record.fio}</td>
+            <td class="col-subject">${record.subject}</td>
+            <td class="col-score">${record.streak} 🔥</td>
+            <td class="col-time">${record.time} ${translations[currentLang].session_time}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+// ========== ИНИЦИАЛИЗАЦИЯ ==========
 document.addEventListener('DOMContentLoaded', () => {
-    const savedLang = localStorage.getItem('quizLang') || 'kk';
+    // Язык
+    const savedLang = localStorage.getItem('quizLang') || 'ru';
     setLanguage(savedLang);
 
+    // Тема
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.body.setAttribute('data-theme', savedTheme);
     const themeSwitch = document.getElementById('theme-switch');
     if (themeSwitch) themeSwitch.checked = savedTheme === 'light';
 
-    // Переключение языка
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            setLanguage(btn.dataset.lang);
-            localStorage.setItem('quizLang', currentLang);
-        });
+    // Навигация
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => navigateTo(link.dataset.page));
+    });
+
+    // Клик по логотипу
+    document.querySelector('.nav-logo').addEventListener('click', () => {
+        location.reload();
     });
 
     // Переключение темы
@@ -521,11 +602,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Скрываем экраны по умолчанию
-    document.getElementById('subjects-screen')?.classList.add('hidden');
-    document.getElementById('game-screen')?.classList.add('hidden');
-
-    loadAvailableSubjects();
+    // Переключение языка в форме
+    document.querySelectorAll('.lang-btn-form').forEach(btn => {
+        btn.addEventListener('click', () => {
+            setLanguage(btn.dataset.lang);
+            localStorage.setItem('quizLang', currentLang);
+        });
+    });
 
     // Форма входа
     document.getElementById('user-form')?.addEventListener('submit', e => {
@@ -538,23 +621,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Сохраняем пользователя
-        const userData = { fio, iin, lang: currentLang };
-        localStorage.setItem('quizUser', JSON.stringify(userData));
-
-        // Блокируем кнопки языка
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.disabled = true;
-            btn.style.opacity = '0.5';
-            btn.style.cursor = 'not-allowed';
-        });
-
+        localStorage.setItem('quizUser', JSON.stringify({ fio, iin, lang: currentLang }));
         document.getElementById('welcome-screen')?.classList.add('hidden');
         document.getElementById('subjects-screen')?.classList.remove('hidden');
         loadAvailableSubjects();
     });
 
-    // Кнопка "Начать викторину"
+    // Старт викторины
     document.getElementById('start-quiz-btn')?.addEventListener('click', async () => {
         const hasQuestions = await loadQuestionsFromSelected();
         if (!hasQuestions) {
@@ -564,21 +637,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
         streak = 0;
         maxStreakThisSession = 0;
-        lives = 3; // Сбрасываем жизни
+        lives = 3;
         gameStartTime = Date.now();
         document.getElementById('streak-count').textContent = 0;
 
-        // Устанавливаем имя игрока
         const user = JSON.parse(localStorage.getItem('quizUser')) || { fio: 'Аноним' };
         document.getElementById('player-name').textContent = user.fio || 'Аноним';
-
-        updateLivesDisplay(); // Обновляем отображение жизней
+        updateLivesDisplay();
 
         document.getElementById('subjects-screen')?.classList.add('hidden');
         document.getElementById('game-screen')?.classList.remove('hidden');
         showRandomQuestion();
     });
 
-    // Кнопка "Следующий вопрос"
+    // Следующий вопрос
     document.getElementById('next-question')?.addEventListener('click', showRandomQuestion);
+
+    // Фильтры рейтинга - кнопка "Общий"
+    document.querySelectorAll('#main-filters .filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Снимаем активность со всех кнопок
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            // Активируем "Общий"
+            btn.classList.add('active');
+            // Показываем все рекорды
+            renderRating(records);
+        });
+    });
+
+    document.getElementById('subject-filter')?.addEventListener('change', updateSubjectFilter);
+
+    loadAvailableSubjects();
 });
