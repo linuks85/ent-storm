@@ -477,7 +477,7 @@ async function loadRating() {
         .select('fio, streak, time, subject, date')
         .order('streak', { ascending: false })
         .order('time', { ascending: true })
-        .limit(50);
+        .limit(10);
 
     if (error) {
         console.error('Ошибка загрузки рейтинга:', error.message);
