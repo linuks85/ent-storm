@@ -1332,24 +1332,6 @@
     "image": ""
   },
   {
-    "id": "инф-075",
-    "subject": "информатика",
-    "lang": "kk",
-    "question": "Кіріс 2 (input 2)",
-    "options": [
-      "тағам жоқ",
-      "тағамды жеуге немесе тұтынуға арналған қозғалыс командасы (motor command)",
-      "альбедо (albedo sensor)",
-      "тәтті тағам (sweetness sensor)"
-    ],
-    "correct": 3,
-    "explanation": "Кіріс 2 (input 2) тәтті тағам (sweetness sensor). Егер одан тәтті иіс шықса, онда 1 мәнін, кері жағдайда 0 мәнін қабыл- дайды.",
-    "source": "АрманПВ 2020г. 11кл, 14стр",
-    "author": "Адия",
-    "elo": 1200,
-    "image": ""
-  },
-  {
     "id": "инф-076",
     "subject": "информатика",
     "lang": "kk",
@@ -13137,7 +13119,7 @@
     "source": "Алматыкітап, 8-сынып, 101-бет.",
     "author": "NotebookLM Expert",
     "elo": 1350,
-    "image": ""
+    "image": "assets/images/kz-inf-1387.png"
   },
   {
     "id": "инф-1388",

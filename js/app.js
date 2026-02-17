@@ -330,7 +330,7 @@ function showRandomQuestion() {
 
     document.getElementById('feedback').classList.add('hidden');
     document.getElementById('next-question').classList.add('hidden');
-    document.getElementById('question-text').textContent = q.id + ': \n' + q.question;
+    document.getElementById('question-text').textContent = q.question;
 
     // Изображение
     const imgCont = document.getElementById('question-image');
@@ -430,8 +430,25 @@ function checkAnswer(selectedIdx, correctIdx, shuffledOptions) {
     }
 }
 
+// ========== SUPABASE ==========
+// Замените на свои значения из Supabase → Project Settings → API
+const SUPABASE_URL = 'https://apahgtdrrvbaugooiymt.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_lzzgVjTvtPq7RWcdoARWrg_16OpY6ey';
+
+let _supabase = null;
+
+function getSupabase() {
+    if (_supabase) return _supabase;
+    if (typeof window.supabase === 'undefined') {
+        console.error('Supabase SDK не загружен');
+        return null;
+    }
+    _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    return _supabase;
+}
+
 // ========== РЕКОРДЫ ==========
-function saveRecord() {
+async function saveRecord() {
     const timeSec = Math.round((Date.now() - gameStartTime) / 1000);
     const user = JSON.parse(localStorage.getItem('quizUser')) || { fio: 'Аноним' };
     const subjectsText = selectedSubjects.length > 0 ? selectedSubjects.join(', ') : 'Общий';
@@ -440,36 +457,37 @@ function saveRecord() {
         fio: user.fio || 'Аноним',
         streak: maxStreakThisSession,
         time: timeSec,
+        subject: subjectsText,
         date: new Date().toLocaleString(currentLang === 'kk' ? 'kk-KZ' : 'ru-RU'),
-        subject: subjectsText
     };
 
-    fetch('/records', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(record)
-    })
-        .then(res => res.json())
-        .then(data => { records = data.records || []; })
-        .catch(err => console.error('Ошибка сохранения:', err));
+    const sb = getSupabase();
+    if (!sb) return;
+
+    const { error } = await sb.from('records').insert([record]);
+    if (error) console.error('Ошибка сохранения рекорда:', error.message);
 }
 
-function loadRating() {
-    fetch('/records')
-        .then(res => res.json())
-        .then(data => {
-            records = data || [];
+async function loadRating() {
+    const sb = getSupabase();
+    if (!sb) { renderRating([]); return; }
 
-            // Создаем кнопки предметов
-            createSubjectButtons();
+    const { data, error } = await sb
+        .from('records')
+        .select('fio, streak, time, subject, date')
+        .order('streak', { ascending: false })
+        .order('time', { ascending: true })
+        .limit(50);
 
-            // Показываем общий рейтинг
-            renderRating(records);
-        })
-        .catch(err => {
-            console.error('Ошибка загрузки рейтинга:', err);
-            renderRating([]);
-        });
+    if (error) {
+        console.error('Ошибка загрузки рейтинга:', error.message);
+        renderRating([]);
+        return;
+    }
+
+    records = data || [];
+    createSubjectButtons();
+    renderRating(records);
 }
 
 function createSubjectButtons() {
