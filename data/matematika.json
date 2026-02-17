@@ -1,20 +1,344 @@
 [
     {
-    "id": "mat-3082",
-    "subject": "математика",
-    "lang": "ru",
-    "question": "Что выведет программа при входном числе 92576?",
-    "options": [
-      "29",
-      "Error",
-      "9256",
-      "0"
-    ],
-    "correct": 1,
-    "explanation": "По условию задания, если число '7' имеется, цикл остановится и выведется «Error».",
-    "source": "Алматыкітап, 8-класс, стр. 101",
-    "author": "Тлеукин Нурлан",
-    "elo": 1300,
-    "image": "assets/images/ru-inf-3082.png"
-  }
+        "id": "mat-3082",
+        "subject": "математика",
+        "lang": "ru",
+        "question": "Что выведет программа при входном числе 92576?",
+        "options": [
+            "29",
+            "Error",
+            "9256",
+            "0"
+        ],
+        "correct": 1,
+        "explanation": "По условию задания, если число '7' имеется, цикл остановится и выведется «Error».",
+        "source": "Алматыкітап, 8-класс, стр. 101",
+        "author": "Тлеукин Нурлан",
+        "elo": 1300,
+        "image": "assets/images/ru-inf-3082.png"
+    },
+    {
+        "id": "инф-1781",
+        "subject": "информатика",
+        "lang": "kk",
+        "question": "Python коды берілген. Экранға не шығады?",
+        "options": [
+            "3",
+            "5",
+            "6",
+            "4"
+        ],
+        "correct": 2,
+        "explanation": "itertools.permutations(a) тізімдегі элементтердің барлық мүмкін реттелген орналастыруларын жасайды. Пермутация дегеніміз – элементтердің орындарын ауыстырып құрастыру. Үш элемент үшін мүмкін пермутация саны: 3! = 3 × 2 × 1 = 6",
+        "source": "9-[KZ] IT-Atamura-2019.pdf, 140-бет.",
+        "author": "Expert",
+        "elo": 1400,
+        "image": "assets/images/kz-inf-1781.png"
+    },
+    {
+        "id": "инф-2691",
+        "subject": "информатика",
+        "lang": "kk",
+        "question": "Blockchain транзакциясының 4-қадамында (30-сызба) не орындалады?",
+        "options": [
+            "Ақша аударылады",
+            "Егер қате жоқ болса, блок өз мәліметтерін көшірмесіне жазады",
+            "Мәміле желіге беріледі",
+            "Блоктар тексеріледі"
+        ],
+        "correct": 1,
+        "explanation": "30-сызба. 4-қадам: Егер қате жоқ болса, онда қатысушы блоктарды өз мәліметтер қорының көшірмесіне жазады .",
+        "source": "11-[KZ] IT-ArmanPV-2020.pdf, 227-бет",
+        "author": "Expert",
+        "elo": 1450,
+        "image": "assets/images/kz-inf-2691.png"
+    },
+    {
+        "id": "инф-005",
+        "subject": "информатика",
+        "lang": "ru",
+        "question": "Определите результат программы",
+        "options": [
+            "42",
+            "6",
+            "33",
+            "9"
+        ],
+        "correct": 2,
+        "explanation": "Сумма от 3 (включительно) до 9 (не включительно), то есть 3+4+5+6+7+8 = 33 ",
+        "source": "Тест центр",
+        "author": "Тлеукин Нурлан",
+        "elo": 1200,
+        "image": "assets/images/14fEMGZ3XhMAXWVHHMcHtCnOPyNDqSB-x.png"
+    },
+    {
+        "id": "инф-035",
+        "subject": "информатика",
+        "lang": "kk",
+        "question": "\nБерілген алгоритмнің нәтижесінде экранға не шығады?",
+        "options": [
+            "14 11",
+            "11 8",
+            "21 13",
+            "16 13"
+        ],
+        "correct": 2,
+        "explanation": "Python есебін шығару ",
+        "source": "8 сынып атамура 2021 (104-бет)",
+        "author": "А.Бейбіт",
+        "elo": 1200,
+        "image": "assets/images/1irN4yIbNiXLBV19j1PbaFylewX6uDcvV.jpg"
+    },
+    {
+        "id": "инф-039",
+        "subject": "информатика",
+        "lang": "kk",
+        "question": "Берілген рекурсивті функция экранға қандай мән шығарады?",
+        "options": [
+            "11",
+            "10",
+            "24",
+            "15"
+        ],
+        "correct": 0,
+        "explanation": "Есеп шығару ",
+        "source": "10 сынып алматыкітап 2019(71-бет)",
+        "author": "А.Бейбіт",
+        "elo": 1200,
+        "image": "assets/images/1kxPP_0tGZ6mcxBU2XjvXA9QE02rFx_AO.jpg"
+    },
+    {
+        "id": "инф-042",
+        "subject": "информатика",
+        "lang": "kk",
+        "question": "Кеңейтілген шыңайылықты тап",
+        "options": [
+            "Оң жақ үсті",
+            "Сол жақ асты",
+            "Сол жақ үсті",
+            "Оң жақ асты"
+        ],
+        "correct": 0,
+        "explanation": "Кеңейтілген шыңайылық-виртуалды элементтері бар нақты әлем",
+        "source": "АлматыКітап 11 сынып 70 бет",
+        "author": "Ермухамед",
+        "elo": 1200,
+        "image": "assets/images/1aFswNIqg1JzUi1j2YGOrj5Rc8BmFz3bN.jpg"
+    },
+    {
+        "id": "инф-095",
+        "subject": "информатика",
+        "lang": "ru",
+        "question": "что выведет код с входными данными \"z\"?",
+        "options": [
+            "a",
+            "z",
+            "выведет ошибку",
+            "выведет синтаксическую ошибку"
+        ],
+        "correct": 2,
+        "explanation": "в данном коде будет ошибка времени выполнения(IndexError), т.к. после значения \"z\" в листе(в данном случае строке) нету следующего значения. для исправления кода достаточнo добавить букву \"а\" после \"z\"",
+        "source": "Атамура 10 класс, русская книга, 1.1",
+        "author": "Абуша",
+        "elo": 1200,
+        "image": "assets/images/1key0cKqUDGnOI0dQlsKgWbn1MtzuQn8K.jpg"
+    },
+    {
+        "id": "инф-099",
+        "subject": "информатика",
+        "lang": "ru",
+        "question": "что выведет данная функция?",
+        "options": [
+            "убывающий треугольник от 1 до 11 включительно",
+            "возрастающий треугольник от 1 до 11 включительно",
+            "возрастающий треугольник от 1 до 10 включительно",
+            "убывающий треугольник от 1 до 10 включительно"
+        ],
+        "correct": 2,
+        "explanation": "вывод функции:\n*\n**\n***\n****\n*****\n******\n*******\n********\n*********\n**********",
+        "source": "stepik+мозги Абдурахима",
+        "author": "Абуша",
+        "elo": 1200,
+        "image": "assets/images/1azWaedsSZzHJJ_y-K_j5KrnSVujjeAC.jpg"
+    },
+    {
+        "id": "инф-100",
+        "subject": "информатика",
+        "lang": "kk",
+        "question": "Суретте берілген логикалық элемент",
+        "options": [
+            "Конъюктор",
+            "Дизъюктор",
+            "Эквиваленция",
+            "Инвертор"
+        ],
+        "correct": 0,
+        "explanation": "",
+        "source": "Асылбектің дәптері",
+        "author": "Азиз Асылбек",
+        "elo": 1200,
+        "image": "assets/images/1st5E8TchSG2DxswNW7q65zUvI1JqlPvh.jpg"
+    },
+    {
+        "id": "инф-102",
+        "subject": "информатика",
+        "lang": "ru",
+        "question": "вывод функции при выходном значении \"25000\"",
+        "options": [
+            "25000",
+            "00025",
+            "52",
+            "52000"
+        ],
+        "correct": 2,
+        "explanation": "вывод идет int(), т.е. целоичеслительный",
+        "source": "stepik+мозг Абдурахима",
+        "author": "Абуша",
+        "elo": 1200,
+        "image": "assets/images/1kH4T3DFLknwHSZI2qqAkliKVTwBP7gMD.jpg"
+    },
+    {
+        "id": "инф-106",
+        "subject": "информатика",
+        "lang": "ru",
+        "question": "что выведет функция при входных данных \"3459087654\"?",
+        "options": [
+            "3",
+            "4",
+            "ошибка значении",
+            "5"
+        ],
+        "correct": 3,
+        "explanation": "код определяет 3-ью с начала цифру",
+        "source": "stepik+мозг Абдурахима",
+        "author": "Абуша",
+        "elo": 1200,
+        "image": "assets/images/12DWypwPbWZb5tm1sFSQaD_9AU7GAdmsn.jpg"
+    },
+    {
+        "id": "инф-107",
+        "subject": "информатика",
+        "lang": "kk",
+        "question": "егер a=2, b=2 болса код нәтижксі қандай болады",
+        "options": [
+            "a+b",
+            "AttributeError",
+            "6",
+            "SyntaxError"
+        ],
+        "correct": 1,
+        "explanation": "a,b=map(int, input.split()) жолында input -> input() болу керек",
+        "source": "Асылбектің миы мен дәптері",
+        "author": "Асылбек",
+        "elo": 1200,
+        "image": "assets/images/1yCiIT-U3SYIDs6rIpexIrgczwTFQkd5X.jpg"
+    },
+    {
+        "id": "инф-113",
+        "subject": "информатика",
+        "lang": "kk",
+        "question": "Егер a=4 b=5 болса, Программа нәтижесі",
+        "options": [
+            "20",
+            "5555",
+            "44444",
+            "a*b"
+        ],
+        "correct": 1,
+        "explanation": "a-str b-int, ол дегеніміз а ол бізде әріп секілді қабылданыды. а 5 ке көбейтілгендіктен 5 рет жазылады",
+        "source": "Асылбектің миы",
+        "author": "Азиз Асылбек",
+        "elo": 1200,
+        "image": "assets/images/11N-1ezpuUxCjwqFe25RvCX3aRf3p3GQI.jpg"
+    },
+    {
+        "id": "инф-116",
+        "subject": "информатика",
+        "lang": "kk",
+        "question": "Суретте берілген желілік топология",
+        "options": [
+            "шина",
+            "сақина",
+            "жұлдызша",
+            "тік"
+        ],
+        "correct": 0,
+        "explanation": "",
+        "source": "Асылбектің дәптері",
+        "author": "Азиз Асылбек",
+        "elo": 1200,
+        "image": "assets/images/1DzhMu5d0qab-pdob4nueS7pWiTNkQnro.jpg"
+    },
+    {
+        "id": "инф-234",
+        "subject": "информатика",
+        "lang": "kk",
+        "question": "Суретте қандай логикалық элемент бейнеленген?",
+        "options": [
+            "Инвертор",
+            "Конъюнктор",
+            "Дизъюнктор",
+            "XOR"
+        ],
+        "correct": 1,
+        "explanation": "",
+        "source": "Atamura 10-сынып 2019 51-бет",
+        "author": "Қалдыбек Әділет",
+        "elo": 1200,
+        "image": "assets/images/1ybqsPDupMzbHROUDvILKt9-S6HiOU_d9.png"
+    },
+    {
+        "id": "инф-284",
+        "subject": "информатика",
+        "lang": "kk",
+        "question": "Ол не?",
+        "options": [
+            "Процессор ",
+            "дыбыстық карта",
+            "желілік адаптер",
+            "бейне карта"
+        ],
+        "correct": 2,
+        "explanation": "",
+        "source": "Атамұра кітабі, 6 бет",
+        "author": "Әбділмансұр",
+        "elo": 1200,
+        "image": "assets/images/19PDWhjkEO28e4DVl51uctVtYkXJ1YpTi.jpg"
+    },
+    {
+        "id": "инф-293",
+        "subject": "информатика",
+        "lang": "kk",
+        "question": "Ол не?",
+        "options": [
+            "Wi-fi ",
+            "Bluetooth",
+            "Mobile data",
+            "Маршрутизатор"
+        ],
+        "correct": 3,
+        "explanation": "",
+        "source": "Атамұра кітабі, 7 бет",
+        "author": "Әбділмансұр ",
+        "elo": 1200,
+        "image": "assets/images/14pVTHhopgsB3HBM_t3eu7ZsIVb_JeweQ.png"
+    },
+    {
+        "id": "инф-326",
+        "subject": "информатика",
+        "lang": "kk",
+        "question": "Диаграмманың қай түрі",
+        "options": [
+            "Гистограмма",
+            "Тармақталған",
+            "Сызықтық",
+            "Үстіңгі бөліктер"
+        ],
+        "correct": 2,
+        "explanation": "",
+        "source": "",
+        "author": "Жумабек Жанторе",
+        "elo": 1200,
+        "image": "assets/images/1_EFyM8MqLjJ7nEjPze-BPRijdyZIWBe9.jpg"
+    }
 ]
