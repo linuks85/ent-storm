@@ -116,7 +116,8 @@ const subjects = [
     { id: "matematika", name_kk: "Математика", name_ru: "Математика" },
     { id: "fizika", name_kk: "Физика", name_ru: "Физика" },
     { id: "himiya", name_kk: "Химия", name_ru: "Химия" },
-    { id: "informatika", name_kk: "Информатика", name_ru: "Информатика" }
+    { id: "informatika", name_kk: "Информатика", name_ru: "Информатика" },
+    { id: "inf-pks", name_kk: "ИНФ-ПҚС-6", name_ru: "ИНФ-ППТ-6" }
 ];
 
 // ========== УТИЛИТЫ ==========
