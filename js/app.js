@@ -116,8 +116,7 @@ const subjects = [
     { id: "matematika", name_kk: "Математика", name_ru: "Математика" },
     { id: "fizika", name_kk: "Физика", name_ru: "Физика" },
     { id: "himiya", name_kk: "Химия", name_ru: "Химия" },
-    { id: "informatika", name_kk: "Информатика", name_ru: "Информатика" },
-    { id: "inf-pks", name_kk: "ИНФ-ПҚС-6", name_ru: "ИНФ-ППТ-6" }
+    { id: "informatika", name_kk: "Информатика", name_ru: "Информатика" }
 ];
 
 // ========== УТИЛИТЫ ==========
@@ -165,21 +164,21 @@ function updateLivesDisplay() {
 // ========== НАВИГАЦИЯ ==========
 function navigateTo(page) {
     currentPage = page;
-
+    
     // Скрываем все секции
     document.querySelectorAll('.page-section').forEach(s => s.classList.add('hidden'));
-
+    
     // Показываем нужную секцию
     const pageMap = {
         'home': 'welcome-screen',
         'rating': 'rating-screen'
     };
-
+    
     const sectionId = pageMap[page];
     if (sectionId) {
         document.getElementById(sectionId).classList.remove('hidden');
     }
-
+    
     // Обновляем активную кнопку в меню
     document.querySelectorAll('.nav-link').forEach(link => {
         if (link.dataset.page === page) {
@@ -188,7 +187,7 @@ function navigateTo(page) {
             link.classList.remove('active');
         }
     });
-
+    
     // Если открываем рейтинг - загружаем данные
     if (page === 'rating') {
         loadRating();
@@ -199,7 +198,7 @@ function navigateTo(page) {
 function setLanguage(lang) {
     currentLang = lang;
     document.documentElement.lang = lang;
-
+    
     document.querySelectorAll('[data-key]').forEach(el => {
         const key = el.dataset.key;
         if (translations[lang][key]) {
@@ -210,12 +209,12 @@ function setLanguage(lang) {
             }
         }
     });
-
+    
     // Обновляем активную кнопку языка в форме
     document.querySelectorAll('.lang-btn-form').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.lang === lang);
     });
-
+    
     if (!document.getElementById('subjects-screen').classList.contains('hidden')) {
         renderSubjects();
     }
@@ -245,23 +244,26 @@ function renderSubjects() {
     const grid = document.getElementById('subjects-grid');
     if (!grid) return;
     grid.innerHTML = '';
-
+    
     if (availableSubjects.length === 0) {
         grid.innerHTML = `<p style="text-align:center;color:var(--text-muted);font-size:1.2rem;">
 ${translations[currentLang].no_subjects}</p>`;
         document.getElementById('start-quiz-btn').disabled = true;
         return;
     }
-
+    
     availableSubjects.forEach(sub => {
         const div = document.createElement('div');
         div.className = 'subject-item';
         div.dataset.id = sub.id;
         div.innerHTML = `<span>${sub[`name_${currentLang}`]}<br><small style="opacity:0.7;">(${sub.questionCount})</small></span>`;
         div.onclick = () => {
-            div.classList.toggle('selected');
-            const sel = Array.from(document.querySelectorAll('.subject-item.selected')).map(el => el.dataset.id);
-            document.getElementById('start-quiz-btn').disabled = sel.length === 0;
+            // Снимаем выделение со всех предметов
+            document.querySelectorAll('.subject-item').forEach(item => item.classList.remove('selected'));
+            // Выделяем только текущий
+            div.classList.add('selected');
+            // Активируем кнопку старта
+            document.getElementById('start-quiz-btn').disabled = false;
         };
         grid.appendChild(div);
     });
@@ -290,12 +292,12 @@ async function loadQuestionsFromSelected() {
             console.error(`Ошибка загрузки ${id}:`, e);
         }
     }
-
+    
     if (allQuestions.length > 0) {
         questionQueue = allQuestions.map((_, index) => index);
         questionQueue = shuffleArray(questionQueue);
     }
-
+    
     return allQuestions.length > 0;
 }
 
@@ -314,25 +316,25 @@ function showRandomQuestion() {
         `;
         feedback.className = 'feedback correct';
         feedback.classList.remove('hidden');
-
+        
         const ratingBtn = document.createElement('button');
         ratingBtn.className = 'btn-primary';
         ratingBtn.textContent = translations[currentLang].rating_button;
         ratingBtn.onclick = () => navigateTo('rating');
         feedback.appendChild(ratingBtn);
-
+        
         saveRecord();
         return;
     }
-
+    
     const questionIndex = questionQueue.shift();
     const q = allQuestions[questionIndex];
     currentQuestionData = q;
-
+    
     document.getElementById('feedback').classList.add('hidden');
     document.getElementById('next-question').classList.add('hidden');
     document.getElementById('question-text').textContent = q.question;
-
+    
     // Изображение
     const imgCont = document.getElementById('question-image');
     imgCont.innerHTML = '';
@@ -350,7 +352,7 @@ function showRandomQuestion() {
     } else {
         imgCont.classList.add('hidden');
     }
-
+    
     // Варианты
     const shuffled = shuffleOptions(q.options, q.correct);
     const opts = document.getElementById('options-container');
@@ -369,13 +371,13 @@ function checkAnswer(selectedIdx, correctIdx, shuffledOptions) {
     const feedback = document.getElementById('feedback');
     feedback.classList.remove('hidden');
     opts.forEach(btn => btn.disabled = true);
-
+    
     if (selectedIdx === correctIdx) {
         streak++;
         if (streak > maxStreakThisSession) maxStreakThisSession = streak;
         document.getElementById('streak-count').textContent = streak;
         opts[selectedIdx].classList.add('correct');
-
+        
         feedback.innerHTML = `<strong>${translations[currentLang].correct}</strong>`;
         if (currentQuestionData.explanation) {
             feedback.innerHTML += `<br><br><strong>${translations[currentLang].explanation}</strong> ${currentQuestionData.explanation}`;
@@ -390,10 +392,10 @@ function checkAnswer(selectedIdx, correctIdx, shuffledOptions) {
         updateLivesDisplay();
         opts[selectedIdx].classList.add('wrong');
         opts[correctIdx].classList.add('correct');
-
+        
         feedback.innerHTML = `<strong>${translations[currentLang].wrong}</strong><br><br>
 <strong>${translations[currentLang].correct_answer}</strong> ${shuffledOptions[correctIdx]}<br><br>`;
-
+        
         if (currentQuestionData.explanation) {
             feedback.innerHTML += `<strong>${translations[currentLang].explanation}</strong> ${currentQuestionData.explanation}<br><br>`;
         }
@@ -401,7 +403,7 @@ function checkAnswer(selectedIdx, correctIdx, shuffledOptions) {
             feedback.innerHTML += `<strong>${translations[currentLang].source}</strong> ${currentQuestionData.source}<br><br>`;
         }
         feedback.className = 'feedback wrong';
-
+        
         if (lives <= 0) {
             streak = 0;
             document.getElementById('streak-count').textContent = 0;
@@ -409,7 +411,7 @@ function checkAnswer(selectedIdx, correctIdx, shuffledOptions) {
                 <strong style="font-size:1.3rem;">💔 ${translations[currentLang].game_over}</strong><br><br>
                 ${translations[currentLang].max_streak} <strong>${maxStreakThisSession}</strong>
             </div>`;
-
+            
             const ratingBtn = document.createElement('button');
             ratingBtn.className = 'btn-primary';
             ratingBtn.style.marginTop = '1.5rem';
@@ -433,8 +435,8 @@ function checkAnswer(selectedIdx, correctIdx, shuffledOptions) {
 
 // ========== SUPABASE ==========
 // Замените на свои значения из Supabase → Project Settings → API
-const SUPABASE_URL = 'https://apahgtdrrvbaugooiymt.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_lzzgVjTvtPq7RWcdoARWrg_16OpY6ey';
+const SUPABASE_URL = 'ВСТАВЬТЕ_ВАШ_SUPABASE_URL';
+const SUPABASE_ANON_KEY = 'ВСТАВЬТЕ_ВАШ_ANON_KEY';
 
 let _supabase = null;
 
@@ -455,11 +457,11 @@ async function saveRecord() {
     const subjectsText = selectedSubjects.length > 0 ? selectedSubjects.join(', ') : 'Общий';
 
     const record = {
-        fio: user.fio || 'Аноним',
-        streak: maxStreakThisSession,
-        time: timeSec,
+        fio:     user.fio || 'Аноним',
+        streak:  maxStreakThisSession,
+        time:    timeSec,
         subject: subjectsText,
-        date: new Date().toLocaleString(currentLang === 'kk' ? 'kk-KZ' : 'ru-RU'),
+        date:    new Date().toLocaleString(currentLang === 'kk' ? 'kk-KZ' : 'ru-RU'),
     };
 
     const sb = getSupabase();
@@ -473,12 +475,13 @@ async function loadRating() {
     const sb = getSupabase();
     if (!sb) { renderRating([]); return; }
 
+    // Загружаем топ-50 для фильтрации по предметам
     const { data, error } = await sb
         .from('records')
         .select('fio, streak, time, subject, date')
         .order('streak', { ascending: false })
-        .order('time', { ascending: true })
-        .limit(10);
+        .order('time',   { ascending: true })
+        .limit(100);
 
     if (error) {
         console.error('Ошибка загрузки рейтинга:', error.message);
@@ -488,31 +491,33 @@ async function loadRating() {
 
     records = data || [];
     createSubjectButtons();
-    renderRating(records);
+    
+    // Показываем топ-20 для общего рейтинга
+    renderRating(records.slice(0, 20));
 }
 
 function createSubjectButtons() {
     const subjectFilters = document.getElementById('subject-filters');
     const mainFilters = document.getElementById('main-filters');
-
+    
     if (!subjectFilters || !mainFilters) return;
-
+    
     // Собираем уникальные предметы из рекордов
     const subjectsSet = new Set();
     records.forEach(r => {
         if (r.subject) subjectsSet.add(r.subject);
     });
-
+    
     // Если есть предметы, показываем кнопки
     if (subjectsSet.size > 0) {
         subjectFilters.innerHTML = '';
         subjectFilters.classList.remove('hidden');
-
+        
         subjectsSet.forEach(subject => {
             const btn = document.createElement('button');
             btn.className = 'filter-btn';
             btn.dataset.subject = subject;
-
+            
             // Иконки для предметов
             const icons = {
                 'Информатика': '💻',
@@ -529,15 +534,15 @@ function createSubjectButtons() {
                 'Geografiya': '🌍',
                 'История': '📜'
             };
-
+            
             const icon = Object.keys(icons).find(key => subject.includes(key));
             const iconEmoji = icon ? icons[icon] : '📚';
-
+            
             btn.innerHTML = `
                 <span class="filter-icon">${iconEmoji}</span>
                 <span>${subject}</span>
             `;
-
+            
             btn.onclick = () => {
                 // Снимаем активность с "Общий"
                 mainFilters.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -545,12 +550,12 @@ function createSubjectButtons() {
                 subjectFilters.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                 // Активируем текущую кнопку
                 btn.classList.add('active');
-
-                // Фильтруем рейтинг
-                const filtered = records.filter(r => r.subject === subject);
+                
+                // Фильтруем рейтинг и показываем топ-10 по предмету
+                const filtered = records.filter(r => r.subject === subject).slice(0, 10);
                 renderRating(filtered);
             };
-
+            
             subjectFilters.appendChild(btn);
         });
     } else {
@@ -561,24 +566,24 @@ function createSubjectButtons() {
 function renderRating(data) {
     const tbody = document.getElementById('rating-tbody');
     const empty = document.getElementById('rating-empty');
-
+    
     if (data.length === 0) {
         tbody.innerHTML = '';
         empty.classList.remove('hidden');
         return;
     }
-
+    
     empty.classList.add('hidden');
     tbody.innerHTML = '';
-
+    
     data.forEach((record, index) => {
         const tr = document.createElement('tr');
-
+        
         let medal = '';
         if (index === 0) medal = '🥇';
         else if (index === 1) medal = '🥈';
         else if (index === 2) medal = '🥉';
-
+        
         tr.innerHTML = `
             <td class="col-rank"><span class="rank-medal">${medal}</span>${index + 1}</td>
             <td class="col-name">${record.fio}</td>
@@ -595,23 +600,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // Язык
     const savedLang = localStorage.getItem('quizLang') || 'ru';
     setLanguage(savedLang);
-
+    
     // Тема
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.body.setAttribute('data-theme', savedTheme);
     const themeSwitch = document.getElementById('theme-switch');
     if (themeSwitch) themeSwitch.checked = savedTheme === 'light';
-
+    
     // Навигация
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', () => navigateTo(link.dataset.page));
     });
-
+    
     // Клик по логотипу
     document.querySelector('.nav-logo').addEventListener('click', () => {
         location.reload();
     });
-
+    
     // Переключение темы
     if (themeSwitch) {
         themeSwitch.addEventListener('change', () => {
@@ -620,7 +625,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('theme', theme);
         });
     }
-
+    
     // Переключение языка в форме
     document.querySelectorAll('.lang-btn-form').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -628,24 +633,24 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('quizLang', currentLang);
         });
     });
-
+    
     // Форма входа
     document.getElementById('user-form')?.addEventListener('submit', e => {
         e.preventDefault();
         const fio = document.getElementById('fio')?.value.trim();
         const iin = document.getElementById('iin')?.value.trim();
-
+        
         if (!fio || iin.length !== 12 || !/^\d{12}$/.test(iin)) {
             alert(currentLang === 'kk' ? "Толық және дұрыс мәліметтерді енгізіңіз" : "Введите полные и правильные данные");
             return;
         }
-
+        
         localStorage.setItem('quizUser', JSON.stringify({ fio, iin, lang: currentLang }));
         document.getElementById('welcome-screen')?.classList.add('hidden');
         document.getElementById('subjects-screen')?.classList.remove('hidden');
         loadAvailableSubjects();
     });
-
+    
     // Старт викторины
     document.getElementById('start-quiz-btn')?.addEventListener('click', async () => {
         const hasQuestions = await loadQuestionsFromSelected();
@@ -653,25 +658,25 @@ document.addEventListener('DOMContentLoaded', () => {
             alert(currentLang === 'kk' ? "Таңдалған тақырыптарда сұрақтар жоқ" : "В выбранных предметах нет вопросов");
             return;
         }
-
+        
         streak = 0;
         maxStreakThisSession = 0;
         lives = 3;
         gameStartTime = Date.now();
         document.getElementById('streak-count').textContent = 0;
-
+        
         const user = JSON.parse(localStorage.getItem('quizUser')) || { fio: 'Аноним' };
         document.getElementById('player-name').textContent = user.fio || 'Аноним';
         updateLivesDisplay();
-
+        
         document.getElementById('subjects-screen')?.classList.add('hidden');
         document.getElementById('game-screen')?.classList.remove('hidden');
         showRandomQuestion();
     });
-
+    
     // Следующий вопрос
     document.getElementById('next-question')?.addEventListener('click', showRandomQuestion);
-
+    
     // Фильтры рейтинга - кнопка "Общий"
     document.querySelectorAll('#main-filters .filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -679,12 +684,12 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             // Активируем "Общий"
             btn.classList.add('active');
-            // Показываем все рекорды
-            renderRating(records);
+            // Показываем топ-20 общего рейтинга
+            renderRating(records.slice(0, 20));
         });
     });
-
+    
     document.getElementById('subject-filter')?.addEventListener('change', updateSubjectFilter);
-
+    
     loadAvailableSubjects();
 });
