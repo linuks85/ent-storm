@@ -116,7 +116,8 @@ const subjects = [
     { id: "matematika", name_kk: "Математика", name_ru: "Математика" },
     { id: "fizika", name_kk: "Физика", name_ru: "Физика" },
     { id: "himiya", name_kk: "Химия", name_ru: "Химия" },
-    { id: "informatika", name_kk: "Информатика", name_ru: "Информатика" }
+    { id: "informatika", name_kk: "Информатика", name_ru: "Информатика" },
+    { id: "inf-pks", name_kk: "Инф ПКС-6", name_ru: "Инф ПКС-6" }
 ];
 
 // ========== УТИЛИТЫ ==========
@@ -435,8 +436,8 @@ function checkAnswer(selectedIdx, correctIdx, shuffledOptions) {
 
 // ========== SUPABASE ==========
 // Замените на свои значения из Supabase → Project Settings → API
-const SUPABASE_URL = 'ВСТАВЬТЕ_ВАШ_SUPABASE_URL';
-const SUPABASE_ANON_KEY = 'ВСТАВЬТЕ_ВАШ_ANON_KEY';
+const SUPABASE_URL = 'https://apahgtdrrvbaugooiymt.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_lzzgVjTvtPq7RWcdoARWrg_16OpY6ey';
 
 let _supabase = null;
 
