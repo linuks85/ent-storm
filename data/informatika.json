@@ -3065,10 +3065,10 @@
     "lang": "kk",
     "question": "Python тілінде бүтін сан типі қалай аталады?",
     "options": [
-      "A) float",
-      "B) string ",
-      "C) butin",
-      "D) int"
+      "float",
+      "string ",
+      "butin",
+      "int"
     ],
     "correct": 3,
     "explanation": "",
@@ -3173,10 +3173,10 @@
     "lang": "kk",
     "question": "Python тіліндегі // операторының қызметі:",
     "options": [
-      "A) Қалдық табу ",
-      "B) Қарапайым бөлу",
-      "C) Бүтін бөлу",
-      "D) Дәрежеге шығару"
+      "Қалдық табу ",
+      "Қарапайым бөлу",
+      "Бүтін бөлу",
+      "Дәрежеге шығару"
     ],
     "correct": 2,
     "explanation": "",
@@ -3191,10 +3191,10 @@
     "lang": "kk",
     "question": "Python тілінде бөлудің нәтижесін нақты сан ретінде шығаратын оператор:",
     "options": [
-      "A) //",
-      "B) %",
-      "C) /",
-      "D) **"
+      "//",
+      "%",
+      "/",
+      "**"
     ],
     "correct": 2,
     "explanation": "",
@@ -16525,15 +16525,15 @@
     "id": "инф-1578",
     "subject": "информатика",
     "lang": "kk",
-    "question": "Python кодының нәтижесі: s = 'Informatics'; print(s)",
+    "question": "Python кодының нәтижесі: s = 'Computer'; print(s[0])",
     "options": [
-      "I",
-      "i",
-      "s",
-      "Informatics"
+      "C",
+      "0",
+      "Error",
+      "Computer"
     ],
     "correct": 0,
-    "explanation": "Python-да индекстеу 0-ден басталады, сондықтан бірінші символ 'I' [оқулық контексті бойынша].",
+    "explanation": "Python-да индекстеу 0-ден басталады, сондықтан бірінші символ 'C'.",
     "source": "8-[KZ] IT-Atamura-2021.pdf, 158-бет",
     "author": "NotebookLM Expert",
     "elo": 1050,
