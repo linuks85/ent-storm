@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="ENT-Storm Analytics — профессиональная BI-аналитика, дашборды и инсайты для вашего бизнеса" />
+    <title>ENT-Storm Analytics — BI Аналитика</title>
+    <link rel="stylesheet" href="css/bi.css" />
+</head>
+<body>
+
+<!-- ─── НАВИГАЦИЯ ─────────────────────────────────────── -->
+<nav class="navbar" id="navbar">
+    <div class="nav-inner">
+        <a href="#" class="brand">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <rect x="2" y="18" width="6" height="12" rx="2" fill="#4F8EF7"/>
+                <rect x="10" y="10" width="6" height="20" rx="2" fill="#7C5CFC"/>
+                <rect x="18" y="4" width="6" height="26" rx="2" fill="#4F8EF7"/>
+                <rect x="26" y="13" width="4" height="17" rx="2" fill="#7C5CFC" opacity=".7"/>
+            </svg>
+            <span>Storm<strong>Analytics</strong></span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#services">Услуги</a></li>
+            <li><a href="#cases">Кейсы</a></li>
+            <li><a href="#tech">Технологии</a></li>
+            <li><a href="#process">Процесс</a></li>
+            <li><a href="#contact" class="btn-nav">Связаться</a></li>
+        </ul>
+        <button class="burger" id="burger" aria-label="Меню">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#services" class="mob-link">Услуги</a>
+        <a href="#cases"    class="mob-link">Кейсы</a>
+        <a href="#tech"     class="mob-link">Технологии</a>
+        <a href="#process"  class="mob-link">Процесс</a>
+        <a href="#contact"  class="mob-link cta">Связаться</a>
+    </div>
+</nav>
+
+<!-- ─── ГЕРОЙ ─────────────────────────────────────────── -->
+<section class="hero" id="hero">
+    <div class="hero-bg">
+        <div class="grid-lines"></div>
+        <div class="glow glow-1"></div>
+        <div class="glow glow-2"></div>
+    </div>
+    <div class="hero-content">
+        <div class="badge">BI · Data Engineering · Analytics</div>
+        <h1>Превращаем данные<br/><span class="gradient-text">в решения</span></h1>
+        <p class="hero-sub">
+            Мы строим аналитические системы, которые дают бизнесу чёткое понимание
+            происходящего — в реальном времени, без лишних слов.
+        </p>
+        <div class="hero-actions">
+            <a href="#contact" class="btn-primary">Обсудить проект</a>
+            <a href="#cases"   class="btn-ghost">Смотреть кейсы</a>
+        </div>
+        <div class="hero-stats">
+            <div class="stat"><span class="stat-num" data-target="120">0</span><span>+</span><p>проектов</p></div>
+            <div class="stat-sep"></div>
+            <div class="stat"><span class="stat-num" data-target="40">0</span><span>+</span><p>клиентов</p></div>
+            <div class="stat-sep"></div>
+            <div class="stat"><span class="stat-num" data-target="5">0</span><span></span><p>лет опыта</p></div>
+        </div>
+    </div>
+    <div class="hero-visual">
+        <div class="dashboard-mockup">
+            <div class="mockup-header">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+                <span>Executive Dashboard</span>
+            </div>
+            <div class="mockup-body">
+                <div class="kpi-row">
+                    <div class="kpi-card">
+                        <p class="kpi-label">Выручка</p>
+                        <p class="kpi-value">₸ 48.2М</p>
+                        <p class="kpi-delta up">▲ 12.4%</p>
+                    </div>
+                    <div class="kpi-card">
+                        <p class="kpi-label">Клиенты</p>
+                        <p class="kpi-value">3 842</p>
+                        <p class="kpi-delta up">▲ 7.1%</p>
+                    </div>
+                    <div class="kpi-card">
+                        <p class="kpi-label">Конверсия</p>
+                        <p class="kpi-value">6.8%</p>
+                        <p class="kpi-delta down">▼ 0.3%</p>
+                    </div>
+                </div>
+                <div class="chart-area">
+                    <div class="chart-title">Динамика продаж</div>
+                    <svg class="bar-chart" viewBox="0 0 280 80" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="bg1" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#4F8EF7" stop-opacity="1"/>
+                                <stop offset="100%" stop-color="#4F8EF7" stop-opacity=".2"/>
+                            </linearGradient>
+                            <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#7C5CFC" stop-opacity="1"/>
+                                <stop offset="100%" stop-color="#7C5CFC" stop-opacity=".2"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- bars -->
+                        <rect x="5"   y="55" width="18" height="25" rx="3" fill="url(#bg1)" class="bar"/>
+                        <rect x="30"  y="40" width="18" height="40" rx="3" fill="url(#bg1)" class="bar"/>
+                        <rect x="55"  y="30" width="18" height="50" rx="3" fill="url(#bg2)" class="bar"/>
+                        <rect x="80"  y="45" width="18" height="35" rx="3" fill="url(#bg1)" class="bar"/>
+                        <rect x="105" y="20" width="18" height="60" rx="3" fill="url(#bg2)" class="bar"/>
+                        <rect x="130" y="35" width="18" height="45" rx="3" fill="url(#bg1)" class="bar"/>
+                        <rect x="155" y="10" width="18" height="70" rx="3" fill="url(#bg2)" class="bar"/>
+                        <rect x="180" y="25" width="18" height="55" rx="3" fill="url(#bg1)" class="bar"/>
+                        <rect x="205" y="15" width="18" height="65" rx="3" fill="url(#bg2)" class="bar"/>
+                        <rect x="230" y="5"  width="18" height="75" rx="3" fill="url(#bg2)" class="bar"/>
+                        <rect x="255" y="12" width="18" height="68" rx="3" fill="url(#bg1)" class="bar"/>
+                        <!-- trend line -->
+                        <polyline points="14,58 39,43 64,33 89,48 114,23 139,38 164,13 189,28 214,18 239,8 264,15"
+                            fill="none" stroke="#00E5FF" stroke-width="2" stroke-dasharray="4 2" opacity=".7"/>
+                    </svg>
+                </div>
+                <div class="donut-row">
+                    <div class="donut-wrap">
+                        <svg viewBox="0 0 60 60">
+                            <circle cx="30" cy="30" r="22" fill="none" stroke="#1e2235" stroke-width="10"/>
+                            <circle cx="30" cy="30" r="22" fill="none" stroke="#4F8EF7" stroke-width="10"
+                                stroke-dasharray="83 55" stroke-linecap="round"
+                                transform="rotate(-90 30 30)" class="donut-ring"/>
+                        </svg>
+                        <span>60%</span>
+                        <p>Онлайн</p>
+                    </div>
+                    <div class="donut-wrap">
+                        <svg viewBox="0 0 60 60">
+                            <circle cx="30" cy="30" r="22" fill="none" stroke="#1e2235" stroke-width="10"/>
+                            <circle cx="30" cy="30" r="22" fill="none" stroke="#7C5CFC" stroke-width="10"
+                                stroke-dasharray="55 83" stroke-linecap="round"
+                                transform="rotate(-90 30 30)" class="donut-ring"/>
+                        </svg>
+                        <span>40%</span>
+                        <p>Офлайн</p>
+                    </div>
+                    <div class="mini-table">
+                        <div class="mt-row"><span class="dot-b blue"></span>Казахстан<b>62%</b></div>
+                        <div class="mt-row"><span class="dot-b purple"></span>Россия<b>24%</b></div>
+                        <div class="mt-row"><span class="dot-b cyan"></span>Прочие<b>14%</b></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── УСЛУГИ ────────────────────────────────────────── -->
+<section class="section" id="services">
+    <div class="container">
+        <div class="section-label">Что мы делаем</div>
+        <h2 class="section-title">Полный цикл BI-аналитики</h2>
+        <p class="section-sub">От сырых данных до стратегических решений</p>
+
+        <div class="services-grid">
+
+            <div class="service-card featured">
+                <div class="svc-icon">
+                    <svg viewBox="0 0 48 48" fill="none"><rect x="6" y="30" width="8" height="12" rx="2" fill="#4F8EF7"/><rect x="20" y="20" width="8" height="22" rx="2" fill="#7C5CFC"/><rect x="34" y="10" width="8" height="32" rx="2" fill="#4F8EF7"/><path d="M4 42h40" stroke="#4F8EF7" stroke-width="2" stroke-linecap="round"/></svg>
+                </div>
+                <h3>Дашборды и отчётность</h3>
+                <p>Интерактивные дашборды в Power BI, Tableau и Apache Superset. Отчёты, которые читаются с первого взгляда.</p>
+                <ul class="svc-list">
+                    <li>Executive KPI-дашборды</li>
+                    <li>Оперативная отчётность</li>
+                    <li>Self-service аналитика</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="svc-icon">
+                    <svg viewBox="0 0 48 48" fill="none"><ellipse cx="24" cy="12" rx="18" ry="6" stroke="#7C5CFC" stroke-width="2"/><path d="M6 12v12c0 3.314 8.059 6 18 6s18-2.686 18-6V12" stroke="#7C5CFC" stroke-width="2"/><path d="M6 24v12c0 3.314 8.059 6 18 6s18-2.686 18-6V24" stroke="#4F8EF7" stroke-width="2"/></svg>
+                </div>
+                <h3>Data Engineering</h3>
+                <p>Строим надёжные ETL/ELT-пайплайны и хранилища данных, которые не ломаются в 3 ночи.</p>
+                <ul class="svc-list">
+                    <li>DWH / Data Lake</li>
+                    <li>Airflow, dbt, Spark</li>
+                    <li>Интеграция источников</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="svc-icon">
+                    <svg viewBox="0 0 48 48" fill="none"><path d="M8 36l10-12 8 6 10-14 6 8" stroke="#4F8EF7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="38" cy="24" r="3" fill="#7C5CFC"/><path d="M4 44h40" stroke="#4F8EF7" stroke-width="2" stroke-linecap="round" opacity=".4"/></svg>
+                </div>
+                <h3>Прогнозная аналитика</h3>
+                <p>ML-модели для прогнозирования спроса, оттока клиентов и финансовых показателей.</p>
+                <ul class="svc-list">
+                    <li>Demand Forecasting</li>
+                    <li>Churn Prediction</li>
+                    <li>Anomaly Detection</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="svc-icon">
+                    <svg viewBox="0 0 48 48" fill="none"><rect x="8" y="8" width="14" height="14" rx="3" fill="#7C5CFC" opacity=".8"/><rect x="26" y="8" width="14" height="14" rx="3" stroke="#4F8EF7" stroke-width="2"/><rect x="8" y="26" width="14" height="14" rx="3" stroke="#4F8EF7" stroke-width="2"/><rect x="26" y="26" width="14" height="14" rx="3" fill="#4F8EF7" opacity=".8"/></svg>
+                </div>
+                <h3>Аналитическая стратегия</h3>
+                <p>Аудит данных, разработка data-стратегии и построение data-driven культуры внутри компании.</p>
+                <ul class="svc-list">
+                    <li>Data Audit</li>
+                    <li>KPI-фреймворк</li>
+                    <li>Обучение команды</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="svc-icon">
+                    <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="16" stroke="#4F8EF7" stroke-width="2"/><path d="M24 8v4M24 36v4M8 24h4M36 24h4" stroke="#4F8EF7" stroke-width="2" stroke-linecap="round"/><circle cx="24" cy="24" r="6" fill="#7C5CFC"/></svg>
+                </div>
+                <h3>Real-time аналитика</h3>
+                <p>Потоковая обработка данных с Kafka и Flink для мониторинга бизнеса в режиме реального времени.</p>
+                <ul class="svc-list">
+                    <li>Streaming pipelines</li>
+                    <li>Live-дашборды</li>
+                    <li>Event-driven алерты</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="svc-icon">
+                    <svg viewBox="0 0 48 48" fill="none"><path d="M14 34l6-16 6 10 4-6 4 12" stroke="#7C5CFC" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="6" y="6" width="36" height="36" rx="4" stroke="#4F8EF7" stroke-width="2"/></svg>
+                </div>
+                <h3>Ad-hoc анализ</h3>
+                <p>Быстрые глубокие исследования данных под конкретную бизнес-задачу. Ответ — за дни, не недели.</p>
+                <ul class="svc-list">
+                    <li>Сегментация клиентов</li>
+                    <li>Анализ воронки</li>
+                    <li>Когортный анализ</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ─── КЕЙСЫ ─────────────────────────────────────────── -->
+<section class="section section-dark" id="cases">
+    <div class="container">
+        <div class="section-label">Результаты</div>
+        <h2 class="section-title">Что говорят цифры</h2>
+        <p class="section-sub">Реальные кейсы — реальный эффект</p>
+
+        <div class="cases-grid">
+            <div class="case-card">
+                <div class="case-tag">Ритейл</div>
+                <h3>Единая аналитическая платформа</h3>
+                <p>Объединили 12 источников данных в одно хранилище. Время формирования ежемесячного отчёта сократилось с 3 дней до 15 минут.</p>
+                <div class="case-metrics">
+                    <div class="cm"><span>−97%</span><p>время отчётности</p></div>
+                    <div class="cm"><span>3 дня</span><p>срок внедрения MVP</p></div>
+                </div>
+            </div>
+            <div class="case-card">
+                <div class="case-tag">Финансы</div>
+                <h3>Прогнозирование оттока клиентов</h3>
+                <p>ML-модель на базе исторических транзакций предсказывает отток за 30 дней с точностью 84%. Удержание выросло на 22%.</p>
+                <div class="case-metrics">
+                    <div class="cm"><span>84%</span><p>точность модели</p></div>
+                    <div class="cm"><span>+22%</span><p>удержание клиентов</p></div>
+                </div>
+            </div>
+            <div class="case-card">
+                <div class="case-tag">Логистика</div>
+                <h3>Операционный мониторинг в реальном времени</h3>
+                <p>Live-дашборд на 200+ метрик. Время реакции на инцидент снизилось с 4 часов до 8 минут.</p>
+                <div class="case-metrics">
+                    <div class="cm"><span>200+</span><p>метрик онлайн</p></div>
+                    <div class="cm"><span>×30</span><p>быстрее реакция</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── ТЕХНОЛОГИИ ────────────────────────────────────── -->
+<section class="section" id="tech">
+    <div class="container">
+        <div class="section-label">Стек</div>
+        <h2 class="section-title">Технологии</h2>
+        <p class="section-sub">Используем лучшие инструменты под каждую задачу</p>
+
+        <div class="tech-categories">
+            <div class="tech-cat">
+                <div class="tc-label">Визуализация</div>
+                <div class="tc-items">
+                    <div class="tech-pill">Power BI</div>
+                    <div class="tech-pill">Tableau</div>
+                    <div class="tech-pill">Apache Superset</div>
+                    <div class="tech-pill">Grafana</div>
+                    <div class="tech-pill">Metabase</div>
+                </div>
+            </div>
+            <div class="tech-cat">
+                <div class="tc-label">Хранение данных</div>
+                <div class="tc-items">
+                    <div class="tech-pill">PostgreSQL</div>
+                    <div class="tech-pill">ClickHouse</div>
+                    <div class="tech-pill">BigQuery</div>
+                    <div class="tech-pill">Snowflake</div>
+                    <div class="tech-pill">Apache Iceberg</div>
+                </div>
+            </div>
+            <div class="tech-cat">
+                <div class="tc-label">Пайплайны</div>
+                <div class="tc-items">
+                    <div class="tech-pill">Apache Airflow</div>
+                    <div class="tech-pill">dbt</div>
+                    <div class="tech-pill">Apache Spark</div>
+                    <div class="tech-pill">Kafka</div>
+                    <div class="tech-pill">Flink</div>
+                </div>
+            </div>
+            <div class="tech-cat">
+                <div class="tc-label">ML / AI</div>
+                <div class="tc-items">
+                    <div class="tech-pill">Python</div>
+                    <div class="tech-pill">scikit-learn</div>
+                    <div class="tech-pill">XGBoost</div>
+                    <div class="tech-pill">MLflow</div>
+                    <div class="tech-pill">Vertex AI</div>
+                </div>
+            </div>
+            <div class="tech-cat">
+                <div class="tc-label">Инфраструктура</div>
+                <div class="tc-items">
+                    <div class="tech-pill">AWS</div>
+                    <div class="tech-pill">GCP</div>
+                    <div class="tech-pill">Kubernetes</div>
+                    <div class="tech-pill">Terraform</div>
+                    <div class="tech-pill">Docker</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── ПРОЦЕСС ────────────────────────────────────────── -->
+<section class="section section-dark" id="process">
+    <div class="container">
+        <div class="section-label">Как работаем</div>
+        <h2 class="section-title">От задачи до результата</h2>
+        <p class="section-sub">Прозрачный процесс без лишних итераций</p>
+
+        <div class="process-steps">
+            <div class="step">
+                <div class="step-num">01</div>
+                <div class="step-content">
+                    <h3>Аудит и Discovery</h3>
+                    <p>Изучаем бизнес-контекст, источники данных и текущие боли команды. Фиксируем цели и приоритеты.</p>
+                </div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+                <div class="step-num">02</div>
+                <div class="step-content">
+                    <h3>Архитектура решения</h3>
+                    <p>Проектируем Data Model, выбираем стек и согласуем roadmap. Вы видите, что и зачем строится.</p>
+                </div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+                <div class="step-num">03</div>
+                <div class="step-content">
+                    <h3>MVP за 2–3 недели</h3>
+                    <p>Быстрый запуск первой версии. Реальные данные в продакшене раньше, чем ожидаете.</p>
+                </div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+                <div class="step-num">04</div>
+                <div class="step-content">
+                    <h3>Итерации и поддержка</h3>
+                    <p>Развиваем решение вместе с вашим бизнесом. SLA, документация, обучение команды.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── ПОЧЕМУ МЫ ──────────────────────────────────────── -->
+<section class="section" id="why">
+    <div class="container">
+        <div class="section-label">Наши принципы</div>
+        <h2 class="section-title">Почему StormAnalytics</h2>
+
+        <div class="why-grid">
+            <div class="why-card">
+                <div class="why-icon">⚡</div>
+                <h3>Скорость без жертв</h3>
+                <p>MVP за 2–3 недели. Быстро не значит небрежно — качество и скорость для нас не противоречат друг другу.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon">🎯</div>
+                <h3>Бизнес-фокус</h3>
+                <p>Нас не интересуют красивые графики ради графиков. Каждый дашборд закрывает конкретный бизнес-вопрос.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon">🔒</div>
+                <h3>Безопасность данных</h3>
+                <p>GDPR, шифрование, ролевой доступ. Ваши данные защищены на каждом уровне архитектуры.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon">📚</div>
+                <h3>Передача знаний</h3>
+                <p>Не создаём зависимость от себя. Обучаем команду, пишем документацию, передаём владение.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── CTA / КОНТАКТ ─────────────────────────────────── -->
+<section class="section cta-section" id="contact">
+    <div class="container">
+        <div class="cta-box">
+            <div class="cta-glow"></div>
+            <div class="section-label light">Начать проект</div>
+            <h2>Готовы обсудить<br/>вашу задачу?</h2>
+            <p>Оставьте контакт — ответим в течение рабочего дня и предложим план.</p>
+            <form class="contact-form" id="contactForm">
+                <div class="form-row">
+                    <input type="text"  name="name"    placeholder="Ваше имя"       required autocomplete="name"/>
+                    <input type="text"  name="company" placeholder="Компания"        autocomplete="organization"/>
+                </div>
+                <div class="form-row">
+                    <input type="email" name="email"   placeholder="Email"          required autocomplete="email"/>
+                    <input type="tel"   name="phone"   placeholder="Телефон"        autocomplete="tel"/>
+                </div>
+                <textarea name="message" rows="3" placeholder="Опишите задачу (необязательно)"></textarea>
+                <button type="submit" class="btn-primary btn-submit">Отправить заявку →</button>
+            </form>
+            <div class="contact-alt">
+                или напишите напрямую:&nbsp;
+                <a href="mailto:hello@stormanalytics.kz">hello@stormanalytics.kz</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── ФУТЕР ──────────────────────────────────────────── -->
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                <rect x="2" y="18" width="6" height="12" rx="2" fill="#4F8EF7"/>
+                <rect x="10" y="10" width="6" height="20" rx="2" fill="#7C5CFC"/>
+                <rect x="18" y="4" width="6" height="26" rx="2" fill="#4F8EF7"/>
+                <rect x="26" y="13" width="4" height="17" rx="2" fill="#7C5CFC" opacity=".7"/>
+            </svg>
+            <span>Storm<strong>Analytics</strong></span>
+        </div>
+        <p class="footer-copy">© 2026 StormAnalytics. Все права защищены.</p>
+        <div class="footer-links">
+            <a href="#services">Услуги</a>
+            <a href="#cases">Кейсы</a>
+            <a href="#contact">Контакты</a>
+        </div>
+    </div>
+</footer>
+
+<script src="js/bi.js"></script>
+</body>
+</html>
